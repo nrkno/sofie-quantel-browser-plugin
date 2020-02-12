@@ -6,6 +6,16 @@
 		<title>Quantel Clip Browser</title>
 	</head>
 	<body>
-		<p>You can't fail if you never try.</p>
+		<form name="search" class="search">
+			<fieldset>
+				<label>
+					Search query:
+					<input type="text" name="query" />
+				</label>
+			</fieldset>
+			<button type="submit">Search</button>
+		</form>
+		<ol class="clips"></ol>
+		<script src="./index.js" type="module"></script>
 	</body>
 </html>

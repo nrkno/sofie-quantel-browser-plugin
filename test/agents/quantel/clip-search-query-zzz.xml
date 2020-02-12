@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" 
+  xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
+  <title>ProjectFolders Search</title>
+  <link href="http://160.68.221.95:8182/quantel/search/select?q=Title:zzz*" />
+  <link rel="self" href="http://160.68.221.95:8182/quantel/search/select?q=Title:zzz*" />
+  <link rel="first" href="http://160.68.221.95:8182/quantel/search/select?q=Title%3Azzz*&amp;start=0" />
+  <link rel="last" href="http://160.68.221.95:8182/quantel/search/select?q=Title%3Azzz*&amp;start=0" />
+  <link rel="previous" href="http://160.68.221.95:8182/quantel/search/select?q=Title%3Azzz*&amp;start=0" />
+  <link rel="next" href="http://160.68.221.95:8182/quantel/search/select?q=Title%3Azzz*&amp;start=0" />
+  <updated>2020-02-12T11:45:55.977+01:00</updated>
+  <author>
+    <name>Quantel</name>
+  </author>
+  <id>urn:uuid:bff740ea-87b2-4fc4-905c-df60bff83797</id>
+  <opensearch:totalResults>3</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <opensearch:itemsPerPage>100</opensearch:itemsPerPage>
+  <entry>
+    <content type="text/xml">
+      <PlaceHolder>1</PlaceHolder>
+      <HasEditData>0</HasEditData>
+      <ClipID>699991</ClipID>
+      <id>614_699991</id>
+      <ZoneID>614</ZoneID>
+      <Created>2020-02-11T14:11:34.000+01:00</Created>
+      <ServerFrameRate>25</ServerFrameRate>
+      <NumVidTracks>0</NumVidTracks>
+      <PoolID>6141</PoolID>
+      <CloneZone>611</CloneZone>
+      <MosActive>0</MosActive>
+      <Template>0</Template>
+      <Completed>2020-02-11T14:11:34.000+01:00</Completed>
+      <Frames>0</Frames>
+      <Title>zzz-Espen-headling-110220-dr12</Title>
+      <Category>Tedial</Category>
+      <UnEdited>0</UnEdited>
+      <ClipGUID>e24c1fee-6709-41ea-8577-736f27674623</ClipGUID>
+      <CloneID>12405003</CloneID>
+      <NumAudTracks>0</NumAudTracks>
+    </content>
+    <title type="html">zzz-Espen-headling-110220-dr12</title>
+    <updated>2020-02-11T14:11:34.000+01:00</updated>
+    <id>urn:quid:614_699991</id>
+    <link href="http://160.68.221.95:8182/quantel/search/select?q=id:614_699991" />
+  </entry>
+  <entry>
+    <content type="text/xml">
+      <VideoFormats>0 633</VideoFormats>
+      <PlaceHolder>0</PlaceHolder>
+      <HasEditData>0</HasEditData>
+      <ClipID>699890</ClipID>
+      <id>614_699890</id>
+      <ZoneID>614</ZoneID>
+      <Created>2020-02-11T13:17:19.000+01:00</Created>
+      <ServerFrameRate>25</ServerFrameRate>
+      <Modified>2020-02-11T13:24:07.000+01:00</Modified>
+      <NumVidTracks>1</NumVidTracks>
+      <PoolID>6141</PoolID>
+      <PublishedBy>NRKDT67015.felles.ds.nrk.no</PublishedBy>
+      <AudioFormats>522</AudioFormats>
+      <CloneZone>611</CloneZone>
+      <Owner></Owner>
+      <MosActive>0</MosActive>
+      <PlayAspect>16:9</PlayAspect>
+      <Template>0</Template>
+      <PlayMode>cut</PlayMode>
+      <Completed>2020-02-11T13:27:30.000+01:00</Completed>
+      <Frames>8774</Frames>
+      <Expiry>2020-02-16T13:17:19.000+01:00</Expiry>
+      <Title>ZZZ-KURS-ESPEN-110220-DR12</Title>
+      <Category>Tedial</Category>
+      <UnEdited>0</UnEdited>
+      <ClipGUID>0bcf64e5-9425-4d28-8eb6-215db4b58982</ClipGUID>
+      <VDCPID></VDCPID>
+      <CloneID>12404666</CloneID>
+      <Destination>0</Destination>
+      <NumAudTracks>1</NumAudTracks>
+    </content>
+    <title type="html">ZZZ-KURS-ESPEN-110220-DR12</title>
+    <updated>2020-02-11T13:24:07.000+01:00</updated>
+    <id>urn:quid:614_699890</id>
+    <link href="http://160.68.221.95:8182/quantel/search/select?q=id:614_699890" />
+  </entry>
+  <entry>
+    <content type="text/xml">
+      <PlaceHolder>1</PlaceHolder>
+      <HasEditData>0</HasEditData>
+      <ClipID>699992</ClipID>
+      <id>614_699992</id>
+      <ZoneID>614</ZoneID>
+      <Created>2020-02-11T14:11:45.000+01:00</Created>
+      <ServerFrameRate>25</ServerFrameRate>
+      <NumVidTracks>0</NumVidTracks>
+      <PoolID>6141</PoolID>
+      <CloneZone>611</CloneZone>
+      <MosActive>0</MosActive>
+      <Template>0</Template>
+      <Completed>2020-02-11T14:11:45.000+01:00</Completed>
+      <Frames>0</Frames>
+      <Title>zzz-Espen-headline-110220-dr12</Title>
+      <Category>Tedial</Category>
+      <UnEdited>0</UnEdited>
+      <ClipGUID>c892b006-0035-41df-a9ef-3034f4cc03c6</ClipGUID>
+      <CloneID>12405005</CloneID>
+      <NumAudTracks>0</NumAudTracks>
+    </content>
+    <title type="html">zzz-Espen-headline-110220-dr12</title>
+    <updated>2020-02-11T14:11:45.000+01:00</updated>
+    <id>urn:quid:614_699992</id>
+    <link href="http://160.68.221.95:8182/quantel/search/select?q=id:614_699992" />
+  </entry>
+</feed>

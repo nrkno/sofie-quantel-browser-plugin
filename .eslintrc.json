@@ -10,7 +10,8 @@
 		{
 			"files": ["*-test.js"],
 			"env": {
-				"mocha": true
+				"mocha": true,
+				"node": true
 			}
 		}
 	]
