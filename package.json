@@ -1,23 +1,36 @@
 {
-  "name": "quantel-browser-plugin",
-  "version": "1.0.0",
-  "description": "MOS compatible Quantel video clip browser for use with Sofie TV Automation system",
-  "main": "index.js",
-  "scripts": {
-    "start": "static client",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/nrkno/quantel-browser-plugin.git"
-  },
-  "author": "ola.christian.gundelsby@nrk.no",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/nrkno/quantel-browser-plugin/issues"
-  },
-  "homepage": "https://github.com/nrkno/quantel-browser-plugin#readme",
-  "dependencies": {
-    "node-static": "^0.7.11"
-  }
+	"name": "tv-automation-quantel-browser-plugin",
+	"version": "1.0.0",
+	"description": "MOS compatible Quantel video clip browser for use with Sofie TV Automation system",
+	"main": "index.js",
+	"scripts": {
+		"start": "static client",
+		"lint": "eslint . --ext .js,.ts",
+		"lint:fix": "npm run lint -- --fix",
+		"test": "mocha \"./{,!(node_modules)/**/}*-test.js\"",
+		"test:watch": "npm run test -- -w --reporter min"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com:nrkno/tv-automation-quantel-browser-plugin.git"
+	},
+	"author": "ola.christian.gundelsby@nrk.no",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/nrkno/tv-automation-quantel-browser-plugin/issues"
+	},
+	"homepage": "https://github.com/nrkno/tv-automation-quantel-browser-plugin#readme",
+	"dependencies": {
+		"node-static": "^0.7.11"
+	},
+	"devDependencies": {
+		"eslint": "^6.8.0",
+		"eslint-config-prettier": "^6.10.0",
+		"eslint-plugin-prettier": "^3.1.2",
+		"esm": "^3.2.25",
+		"husky": "^4.2.2",
+		"lint-staged": "^10.0.7",
+		"mocha": "^7.0.1",
+		"prettier": "^1.19.1"
+	}
 }
