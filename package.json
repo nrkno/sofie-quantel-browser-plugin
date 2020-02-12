@@ -1,0 +1,19 @@
+{
+  "name": "quantel-browser-plugin",
+  "version": "1.0.0",
+  "description": "MOS compatible Quantel video clip browser for use with Sofie TV Automation system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nrkno/quantel-browser-plugin.git"
+  },
+  "author": "ola.christian.gundelsby@nrk.no",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nrkno/quantel-browser-plugin/issues"
+  },
+  "homepage": "https://github.com/nrkno/quantel-browser-plugin#readme"
+}
