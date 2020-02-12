@@ -4,6 +4,7 @@
   "description": "MOS compatible Quantel video clip browser for use with Sofie TV Automation system",
   "main": "index.js",
   "scripts": {
+    "start": "static client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/nrkno/quantel-browser-plugin/issues"
   },
-  "homepage": "https://github.com/nrkno/quantel-browser-plugin#readme"
+  "homepage": "https://github.com/nrkno/quantel-browser-plugin#readme",
+  "dependencies": {
+    "node-static": "^0.7.11"
+  }
 }
