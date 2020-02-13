@@ -36,6 +36,7 @@ class QuantelAgent {
 function mapClipData({ content }) {
 	return {
 		guid: content.ClipGUID,
-		title: content.Title
+		title: content.Title,
+		frames: content.Frames
 	}
 }

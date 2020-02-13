@@ -1,39 +1,30 @@
-import { create as createNcsItem } from './ncsItemCreator.js'
 import { xmlStringToObject } from '../xml/parser.js'
 
-export { parseXmlString }
+export { parseXmlString, objectTypes, getObjectType }
 
-const messageTypes = {
-	MOS_NCS_ITEM_REQUEST: 'ncsItemRequest',
-	CLIP_ITEM: 'mos-clip-item',
+const objectTypes = {
+	MOS_NCS_ITEM_REQUEST: 'mos-ncsItemRequest',
 	NOT_MOS: 'non-mos',
 	MOS_UNKNOWN: 'mos-unknown'
 }
 
 function parseXmlString(xmlString) {
 	const obj = xmlStringToObject(xmlString)
-	const type = getMessageType(obj)
+	const type = getObjectType(obj)
 
 	return { type }
 }
 
-function getMessageType(obj) {
+function getObjectType(obj) {
 	if (Object.keys(obj)[0] !== 'mos') {
 		// not a mos object
-		return messageTypes.NOT_MOS
+		return objectTypes.NOT_MOS
 	}
 
 	switch (Object.keys(obj.mos)[0]) {
-		case messageTypes.MOS_NCS_ITEM_REQUEST:
-			return messageTypes.MOS_NCS_ITEM_REQUEST
+		case objectTypes.MOS_NCS_ITEM_REQUEST:
+			return objectTypes.MOS_NCS_ITEM_REQUEST
 		default:
-			return messageTypes.MOS_UNKNOWN
-	}
-}
-
-function getMosObjectCreator(type) {
-	switch (type) {
-		case messageTypes.CLIP_ITEM:
-			return createNcsItem
+			return objectTypes.MOS_UNKNOWN
 	}
 }

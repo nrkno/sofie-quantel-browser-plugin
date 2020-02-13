@@ -76,6 +76,13 @@ describe('Quantel Agent', () => {
 
 					assert.equals(actual, 'zzz-Espen-headling-110220-dr12')
 				})
+
+				it('should set title property from clip data', async () => {
+					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const actual = (await results).clips[0].frames
+
+					assert.equals(actual, '0')
+				})
 			})
 		})
 	})

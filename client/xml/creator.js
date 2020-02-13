@@ -1,6 +1,6 @@
-export { objectToXML }
+export { objectToXml }
 
-function objectToXML(obj, rootName) {
+function objectToXml(obj, rootName) {
 	const doc = new Document()
 	const root = doc.createElement(rootName)
 

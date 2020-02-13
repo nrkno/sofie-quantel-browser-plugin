@@ -8,7 +8,7 @@ const classNames = {
 }
 
 const dataAttributeNames = {
-	GUID: 'guid'
+	CLIP: 'clip'
 }
 
 async function init({ onTargetSelect, onTargetCancel }) {
