@@ -1,6 +1,6 @@
 import { objectToXml } from '../xml/creator.js'
 
-export { createQuantelClipNcsItem as createNcsItemForQuantelClip }
+export { createQuantelClipNcsItem }
 
 /**
  *

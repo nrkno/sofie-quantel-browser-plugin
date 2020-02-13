@@ -26,8 +26,13 @@ async function init({ onTargetSelect, onTargetCancel }) {
 	const params = new URLSearchParams(document.location.search.substring(1))
 	const server = params.get('server')
 	const titleQuery = params.get('title')
+	const poolIdQuery = params.get('poolId')
+	const createdQuery = params.get('created')
 
-	const clips = await performSearch({ server, query: { title: titleQuery } })
+	const clips = await performSearch({
+		server,
+		query: { title: titleQuery, poolId: poolIdQuery, created: createdQuery }
+	})
 	buildClipList(clips)
 	setupDragTracking(classNames.CLIP_ITEM, {
 		onDragStart: (clipItem) => {
