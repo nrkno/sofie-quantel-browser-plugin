@@ -7,17 +7,12 @@ import { JSDOM } from 'jsdom'
 const sampleXmlResults = readFileSync(path.join(__dirname, 'clip-search-query-zzz.xml'), 'utf-8')
 
 describe('Quantel Agent', () => {
-	let fetch = null
-
 	before(() => {
 		const dom = new JSDOM('<!DOCTYPE html><html><head></head><body></body></html>')
 
 		global.window = dom.window
 		global.document = dom.window.document
-	})
-
-	beforeEach(() => {
-		fetch = sinon.fake.resolves({
+		const fetch = sinon.fake.resolves({
 			text: async () => sampleXmlResults
 		})
 		global.window.fetch = fetch
@@ -25,52 +20,62 @@ describe('Quantel Agent', () => {
 	})
 
 	describe('searchClip', () => {
-		const hostUrl = new URL('http://quantel')
-		const agent = new QuantelAgent(hostUrl.href)
+		describe('Query to Quantel server', () => {
+			it('should query host given in constructor', async () => {
+				const hostUrl = new URL('http://quantel')
 
-		it('should query host given in constructor', async () => {
-			await agent.searchClip('hehe')
+				const agent = new QuantelAgent(hostUrl.href)
+				await agent.searchClip('hehe')
+				const actual = new URL(fetch.lastArg)
 
-			const actual = new URL(fetch.lastArg)
-			assert.equals(actual.protocol, hostUrl.protocol)
-			assert.equals(actual.host, hostUrl.host)
-		})
-
-		it('should query using the correct path', async () => {
-			await agent.searchClip('hehe')
-
-			const actual = new URL(fetch.lastArg)
-			assert.equals(actual.pathname, '/quantel/homezone/clips/search')
-		})
-		it('should query using the provided search query', async () => {
-			const expected = 'hehelol'
-
-			await agent.searchClip(expected)
-
-			const actual = new URL(fetch.lastArg)
-			assert.equals(actual.searchParams.get('q'), expected)
-		})
-
-		it('should return an array containing the clips from the search results', async () => {
-			const actual = await agent.searchClip('whatever') // fetch mock doesn't care
-
-			assert.isArray(actual.clips)
-			assert.equals(actual.clips.length, 3)
-		})
-
-		describe('Clip object contents', () => {
-			const results = agent.searchClip('whatever') // fetch mock doesn't care
-
-			it('should set guid property from clip data', async () => {
-				const actual = (await results).clips[0].guid
-
-				assert.equals(actual, 'e24c1fee-6709-41ea-8577-736f27674623')
+				assert.equals(actual.protocol, hostUrl.protocol)
+				assert.equals(actual.host, hostUrl.host)
 			})
 
-			it('should set title property from clip data', async () => {
-				const actual = (await results).clips[0].title
+			it('should query using the correct path', async () => {
+				const agent = new QuantelAgent('http://quantel')
+				await agent.searchClip('hehe')
 
-				assert.equals(actual, 'zzz-Espen-headling-110220-dr12')
+				const actual = new URL(fetch.lastArg)
+				assert.equals(actual.pathname, '/quantel/homezone/clips/search')
+			})
+			it('should query using the provided title', async () => {
+				const title = 'hehelol'
+				const expected = `Title:${title}`
+
+				const agent = new QuantelAgent('http://quantel')
+				await agent.searchClip({ title: title })
+
+				const actual = new URL(fetch.lastArg)
+				assert.equals(actual.searchParams.get('q'), expected)
+			})
+		})
+
+		describe('Return value', () => {
+			it('should return an array containing the clips from the search results', async () => {
+				const agent = new QuantelAgent('http://quantel')
+				const actual = await agent.searchClip('whatever') // fetch mock doesn't care
+
+				assert.isArray(actual.clips)
+				assert.equals(actual.clips.length, 3)
+			})
+
+			describe('Clip object contents', () => {
+				const agent = new QuantelAgent('http://quantel')
+
+				it('should set guid property from clip data', async () => {
+					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const actual = (await results).clips[0].guid
+
+					assert.equals(actual, 'e24c1fee-6709-41ea-8577-736f27674623')
+				})
+
+				it('should set title property from clip data', async () => {
+					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const actual = (await results).clips[0].title
+
+					assert.equals(actual, 'zzz-Espen-headling-110220-dr12')
+				})
 			})
 		})
 	})

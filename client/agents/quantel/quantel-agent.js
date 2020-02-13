@@ -1,4 +1,4 @@
-import { xmlStringToObject } from './parser.js'
+import { xmlStringToObject } from '../../xml/parser.js'
 
 export { QuantelAgent }
 
@@ -20,12 +20,13 @@ class QuantelAgent {
 		const { path, params } = REQUESTS.CLIPS
 		const url = new URL(this.host)
 		url.pathname = path
-		url.searchParams.append(params.QUERY, query)
+		url.searchParams.append(params.QUERY, `Title:${query.title}`)
 		return fetch(url.href)
 			.then((response) => response.text())
 			.then((xmlString) => xmlStringToObject(xmlString))
 			.then((results) => {
-				const clips = Array.isArray(results.entry) ? [...results.entry] : [results.entry]
+				const { entry } = results.feed
+				const clips = Array.isArray(entry) ? [...entry] : [entry]
 
 				return { clips: clips.map(mapClipData) }
 			})

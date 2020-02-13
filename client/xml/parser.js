@@ -1,5 +1,5 @@
 /**
- * Client side Quantel XML to JavaScript object conversion. Not exhaustive, might cut
+ * Client side XML to JavaScript object conversion. Not exhaustive, might cut
  * corners to fit specific use cases.
  * Originally developed for use by the Quantel Browser Plugin in the Sofie TV Automation project.
  *
@@ -20,11 +20,13 @@ function xmlStringToObject(xmlString) {
 }
 
 /**
- * Returns an object representing the Quantel XML document.
+ * Returns an object representing the XML documents.
  */
 function xmlToObject(doc) {
 	if (doc.firstChild) {
-		return nodeToObj(doc.firstChild)
+		return {
+			[doc.firstChild.nodeName]: nodeToObj(doc.firstChild)
+		}
 	}
 
 	return {}
