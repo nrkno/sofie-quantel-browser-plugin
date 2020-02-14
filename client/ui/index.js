@@ -111,11 +111,20 @@ async function performSearch({ server, query }, refreshAfter) {
 
 function createClipListElement(clip) {
 	const listItem = document.createElement('li')
+
 	listItem.setAttribute('draggable', true)
 	listItem.classList.add(classNames.CLIP_ITEM)
-	listItem.textContent = clip.title
 	listItem.dataset[dataAttributeNames.GUID] = clip.guid
 	listItem.dataset[dataAttributeNames.CLIP] = JSON.stringify(clip)
+
+	const thumbnail = document.createElement('img')
+	thumbnail.src = clip.thumbnailUrl
+	thumbnail.setAttribute('alt', `Still frame for ${clip.title}`)
+	listItem.appendChild(thumbnail)
+
+	const label = document.createElement('span')
+	label.textContent = clip.title
+	listItem.appendChild(label)
 
 	return listItem
 }

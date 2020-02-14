@@ -2,9 +2,14 @@ import { xmlStringToObject } from '../../xml/parser.js'
 
 export { QuantelAgent }
 
+const paths = {
+	SEARCH: '/quantel/homezone/clips/search',
+	STILLS: '/quantel/homezone/clips/stills/'
+}
+
 const REQUESTS = {
 	CLIP_SEARCH: {
-		path: '/quantel/homezone/clips/search',
+		path: paths.SEARCH,
 		params: {
 			QUERY: 'q'
 		}
@@ -50,16 +55,18 @@ class QuantelAgent {
 				const { entry } = results.feed
 				const clips = Array.isArray(entry) ? [...entry] : [entry]
 
-				return { clips: clips.map(mapClipData) }
+				return { clips: clips.map((clip) => mapClipData(clip, this.host)) }
 			})
 	}
 }
 
-function mapClipData({ content }) {
+function mapClipData({ content }, serverHost) {
 	return {
 		guid: content.ClipGUID,
 		title: content.Title,
-		frames: content.Frames
+		frames: content.Frames,
+		clipId: content.ClipID,
+		thumbnailUrl: `${serverHost}${paths.STILLS}${content.ClipID}/0.128.jpg`
 	}
 }
 

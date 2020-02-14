@@ -61,7 +61,8 @@ describe('Quantel Agent', () => {
 			})
 
 			describe('Clip object contents', () => {
-				const agent = new QuantelAgent('http://quantel')
+				const serverUrl = 'http://quantel'
+				const agent = new QuantelAgent(serverUrl)
 
 				it('should set guid property from clip data', async () => {
 					const results = agent.searchClip('whatever') // fetch mock doesn't care
@@ -82,6 +83,23 @@ describe('Quantel Agent', () => {
 					const actual = (await results).clips[0].frames
 
 					assert.equals(actual, '0')
+				})
+
+				it('should set clipId property from clip data', async () => {
+					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const actual = (await results).clips[0].clipId
+
+					assert.equals(actual, '699991')
+				})
+
+				it('should set thumbnailUrl property to a still for the clip', async () => {
+					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const clipId = (await results).clips[0].clipId
+					const expected = `${serverUrl}/quantel/homezone/clips/stills/${clipId}/0.128.jpg`
+
+					const actual = (await results).clips[0].thumbnailUrl
+
+					assert.equals(actual, expected)
 				})
 			})
 		})
