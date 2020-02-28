@@ -34,11 +34,12 @@ async function init({ onTargetSelect, onTargetCancel }) {
 
 	const origin = params.get('origin')
 	if (origin) {
+		let originURL
 		try {
-			const originURL = new URL(origin)
+			originURL = new URL(origin)
 			document.domain = originURL.hostname
 		} catch (e) {
-			if (e.name === 'SecurityError') {
+			if (e.name === 'SecurityError' && originURL) {
 				console.error(`Could not change document domain to "${originURL.hostname}" for provided origin URL: "${origin}"`, e)
 			} else if (e.name === 'TypeError') {
 				console.error(`Invalid origin URL: "${origin}"`, e)
