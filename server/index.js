@@ -36,7 +36,7 @@ router.all('/api/(.*)', async (ctx, next) => {
 		ctx.set({
 			'Content-Type': response.headers.get('content-type'),
 			'Cache-Control': response.headers.get('cache-control'),
-			'Content-Length': response.header.get('content-length'),
+			'Content-Length': response.headers.get('content-length'),
 			'Access-Control-Allow-Origin': '*'
 		});
 		ctx.body = response.body.pipe(PassThrough());
