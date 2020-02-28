@@ -43,7 +43,10 @@ router.all('/api/(.*)', async (ctx, next) => {
 	} catch (e) {
 		ctx.status = 504;
 		ctx.body = 'Could not connect to remote Quantel Gateway'
+
+		console.error(e)
 	}
+
 	next();
 });
 
