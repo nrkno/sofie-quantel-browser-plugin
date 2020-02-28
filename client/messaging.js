@@ -1,22 +1,33 @@
 import { xmlStringToObject } from './xml/parser.js'
+import { objectToXml } from './xml/creator.js'
 import { getObjectType, objectTypes } from './mos/mos-helpers.js'
+import { ncsReqAppInfo } from './mos/ncsReqAppInfo.js';
 
-export { initListeners, sendData }
+export { initListeners, signalReadyToHost, sendData }
 
 /**
  * Initialize messaging event listeners.
  *
+ * @param {string} hostOrigin - allowed origin for MOS messages
  * @param {Object} callbacks - callbacks for incoming messages
  * @param {function} onNcsItemRequest - callback for a MOS NcsItemRequest
  */
-function initListeners({ onNcsItemRequest }) {
-	window.addEventListener('message', ({ data }) => {
+function initListeners(hostOrigin, { onNcsItemRequest, onNcsAppInfo }) {
+	window.addEventListener('message', ({ data, origin }) => {
+		if (event.origin !== hostOrigin) {
+			console.log(`Received a message with incorrect origin: "${origin}"`);
+			return;
+		}
+
 		try {
 			const obj = xmlStringToObject(data)
 			const messageType = getObjectType(obj)
 			switch (messageType) {
 				case objectTypes.MOS_NCS_ITEM_REQUEST:
 					onNcsItemRequest()
+					break
+				case objectTypes.MOS_NCS_APP_INFO:
+					onNcsAppInfo(obj)
 					break
 			}
 		} catch (error) {
@@ -26,7 +37,16 @@ function initListeners({ onNcsItemRequest }) {
 }
 
 /**
- *\ Sends a data payload to a specified window.
+ * Signal that we are ready to receive messages
+ */
+function signalReadyToHost() {
+	if (window.parent) {
+		sendData(window.parent, ncsReqAppInfo())
+	}
+}
+
+/**
+ * Sends a data payload to a specified window.
  *
  * @param {Window} targetWindow - the window the data will be sent to
  * @param {*} data - the data payload to send

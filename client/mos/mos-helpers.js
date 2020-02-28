@@ -5,6 +5,7 @@ export { objectTypes, getObjectType }
  */
 const objectTypes = {
 	MOS_NCS_ITEM_REQUEST: 'ncsItemRequest',
+	MOS_NCS_APP_INFO: 'ncsAppInfo',
 	NOT_MOS: 'non-mos',
 	MOS_UNKNOWN: 'mos-unknown'
 }
@@ -26,6 +27,8 @@ function getObjectType(obj) {
 	switch (Object.keys(obj.mos)[0]) {
 		case objectTypes.MOS_NCS_ITEM_REQUEST:
 			return objectTypes.MOS_NCS_ITEM_REQUEST
+		case objectTypes.MOS_NCS_APP_INFO:
+			return objectTypes.MOS_NCS_APP_INFO
 		default:
 			return objectTypes.MOS_UNKNOWN
 	}

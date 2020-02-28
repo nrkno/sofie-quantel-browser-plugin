@@ -27,10 +27,26 @@ const dataAttributeNames = {
  */
 async function init({ onTargetSelect, onTargetCancel }) {
 	const params = new URLSearchParams(document.location.search.substring(1))
-	const server = params.get('server')
+	const server = params.get('server') || document.location.origin + '/api'
 	const titleQuery = params.get('title')
 	const poolIdQuery = params.get('poolId')
 	const createdQuery = params.get('created')
+
+	const origin = params.get('origin')
+	if (origin) {
+		try {
+			const originURL = new URL(origin)
+			document.domain = originURL.hostname
+		} catch (e) {
+			if (e.name === 'SecurityError') {
+				console.error(`Could not change document domain to "${originURL.hostname}" for provided origin URL: "${origin}"`, e)
+			} else if (e.name === 'TypeError') {
+				console.error(`Invalid origin URL: "${origin}"`, e)
+			} else {
+				console.error(e)
+			}
+		}
+	}
 
 	performSearch(
 		{
@@ -62,6 +78,10 @@ async function init({ onTargetSelect, onTargetCancel }) {
 			}
 		}
 	})
+
+	return {
+		origin
+	}
 }
 
 function setupDragTracking(className, { onDragStart, onDragEnd }) {
