@@ -40,7 +40,7 @@ function initListeners(hostOrigin, { onNcsItemRequest, onNcsAppInfo }) {
  * Signal that we are ready to receive messages
  */
 function signalReadyToHost() {
-	if (window.parent) {
+	if (window.parent && window.parent !== window) {
 		sendData(window.parent, ncsReqAppInfo())
 	}
 }

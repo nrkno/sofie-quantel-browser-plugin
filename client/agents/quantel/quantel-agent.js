@@ -44,7 +44,7 @@ class QuantelAgent {
 	searchClip(criteria) {
 		const { path, params } = REQUESTS.CLIP_SEARCH
 		const url = new URL(this.host)
-		url.pathname = path
+		url.pathname = url.pathname + path
 		const queryParamValue = buildQueryParam(criteria)
 		url.searchParams.append(params.QUERY, queryParamValue)
 
