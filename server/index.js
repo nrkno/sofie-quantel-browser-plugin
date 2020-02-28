@@ -11,6 +11,8 @@ const SERVER_PORT = process.env.PORT || 9000;
 
 const QUANTEL_GW_URL = process.env.QUANTEL_GW_URL;
 
+const packageInfo = require('../package.json')
+
 router.all('/api/(.*)', async (ctx, next) => {
 	// console.log(ctx.request.method, ctx.params['0'], ctx.request.querystring);
 	if (!QUANTEL_GW_URL) {
@@ -31,11 +33,20 @@ router.all('/api/(.*)', async (ctx, next) => {
 		method
 	});
 	ctx.set({
-		'content-type': response.headers.get('content-type')
+		'content-type': response.headers.get('content-type'),
+		'cache-control': response.headers.get('cache-control'),
+		'content-length': response.header.get('content-length')
 	});
 	ctx.body = response.body.pipe(PassThrough());
 	next();
 });
+
+app.use((ctx) => {
+	ctx.set({
+		'access-control-allow-origin': '*',
+		'server': `${packageInfo.name}/${packageInfo.version}`
+	});
+})
 
 app.use(router.routes());
 
