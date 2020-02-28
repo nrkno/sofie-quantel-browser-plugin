@@ -29,31 +29,34 @@ router.all('/api/(.*)', async (ctx, next) => {
 
 	const href = `${QUANTEL_GW_URL}/${location}?${query}`;
 
-	const response = await fetch(href, {
-		method
-	});
-	ctx.set({
-		'content-type': response.headers.get('content-type'),
-		'cache-control': response.headers.get('cache-control'),
-		'content-length': response.header.get('content-length')
-	});
-	ctx.body = response.body.pipe(PassThrough());
+	try {
+		const response = await fetch(href, {
+			method
+		});
+		ctx.set({
+			'Content-Type': response.headers.get('content-type'),
+			'Cache-Control': response.headers.get('cache-control'),
+			'Content-Length': response.header.get('content-length'),
+			'Access-Control-Allow-Origin': '*'
+		});
+		ctx.body = response.body.pipe(PassThrough());
+	} catch (e) {
+		ctx.status = 504;
+		ctx.body = 'Could not connect to remote Quantel Gateway'
+	}
 	next();
 });
 
-app.use((ctx, next) => {
-	ctx.set({
-		'access-control-allow-origin': '*',
-		'server': `${packageInfo.name}/${packageInfo.version}`
-	});
+app
+	.use(async (ctx, next) => {
+		await next();
 
-	next();
-})
-
-app.use(router.routes());
-
-app.use(serve('./client/'));
-
-app.listen(SERVER_PORT);
+		ctx.set({
+			'Server': `${packageInfo.name}/${packageInfo.version}`
+		});
+	})
+	.use(router.routes())
+	.use(serve('./client/'))
+	.listen(SERVER_PORT);
 
 console.log(`Listening on port ${SERVER_PORT}`);
