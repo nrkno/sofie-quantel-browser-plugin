@@ -41,11 +41,13 @@ router.all('/api/(.*)', async (ctx, next) => {
 	next();
 });
 
-app.use((ctx) => {
+app.use((ctx, next) => {
 	ctx.set({
 		'access-control-allow-origin': '*',
 		'server': `${packageInfo.name}/${packageInfo.version}`
 	});
+
+	next();
 })
 
 app.use(router.routes());
