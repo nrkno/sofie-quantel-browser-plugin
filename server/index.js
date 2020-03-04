@@ -1,65 +1,65 @@
-const Koa = require('koa');
-const serve = require('koa-static');
-const Router = require('koa-router');
-const fetch = require('node-fetch');
-const PassThrough = require('stream').PassThrough;
+const Koa = require('koa')
+const serve = require('koa-static')
+const Router = require('koa-router')
+const fetch = require('node-fetch')
+const PassThrough = require('stream').PassThrough
 
-const app = new Koa();
-const router = new Router();
+const app = new Koa()
+const router = new Router()
 
-const SERVER_PORT = process.env.PORT || 9000;
+const SERVER_PORT = process.env.PORT || 9000
 
-const QUANTEL_GW_URL = process.env.QUANTEL_GW_URL;
+const QUANTEL_GW_URL = process.env.QUANTEL_GW_URL
 
 const packageInfo = require('../package.json')
 
 router.all('/api/(.*)', async (ctx, next) => {
 	// console.log(ctx.request.method, ctx.params['0'], ctx.request.querystring);
 	if (!QUANTEL_GW_URL) {
-		ctx.body = 'Quantel Gateway not selected.';
-		ctx.status = 502;
-		next();
+		ctx.body = 'Quantel Gateway not selected.'
+		ctx.status = 502
+		next()
 
-		return;
+		return
 	}
 
-	const method = ctx.request.method;
-	const location = ctx.params['0'];
-	const query = ctx.request.querystring;
+	const method = ctx.request.method
+	const location = ctx.params['0']
+	const query = ctx.request.querystring
 
-	const href = `${QUANTEL_GW_URL}/${location}?${query}`;
+	const href = `${QUANTEL_GW_URL}/${location}?${query}`
 
 	try {
 		const response = await fetch(href, {
 			method
-		});
+		})
 		ctx.set({
 			'Content-Type': response.headers.get('content-type'),
 			'Cache-Control': response.headers.get('cache-control'),
 			'Content-Length': response.headers.get('content-length'),
 			'Access-Control-Allow-Origin': '*'
-		});
-		ctx.body = response.body.pipe(PassThrough());
+		})
+		ctx.body = response.body.pipe(PassThrough())
 	} catch (e) {
-		ctx.status = 504;
+		ctx.status = 504
 		ctx.body = 'Could not connect to remote Quantel Gateway'
 
 		console.error(e)
 	}
 
-	next();
-});
+	next()
+})
 
 app
 	.use(async (ctx, next) => {
-		await next();
+		await next()
 
 		ctx.set({
-			'Server': `${packageInfo.name}/${packageInfo.version}`
-		});
+			Server: `${packageInfo.name}/${packageInfo.version}`
+		})
 	})
 	.use(router.routes())
 	.use(serve('./client/'))
-	.listen(SERVER_PORT);
+	.listen(SERVER_PORT)
 
-console.log(`Listening on port ${SERVER_PORT}`);
+console.log(`Listening on port ${SERVER_PORT}`)
