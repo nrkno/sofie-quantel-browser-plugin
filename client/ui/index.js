@@ -1,6 +1,5 @@
 import { QuantelAgent } from '../agents/quantel/quantel-agent.js'
 import { createQuantelClipNcsItem } from '../mos/ncsItemCreator.js'
-import { getSelected } from '../state.js'
 
 export { init }
 
@@ -40,7 +39,10 @@ async function init({ onTargetSelect, onTargetCancel }) {
 			document.domain = originURL.hostname
 		} catch (e) {
 			if (e.name === 'SecurityError' && originURL) {
-				console.error(`Could not change document domain to "${originURL.hostname}" for provided origin URL: "${origin}"`, e)
+				console.error(
+					`Could not change document domain to "${originURL.hostname}" for provided origin URL: "${origin}"`,
+					e
+				)
 			} else if (e.name === 'TypeError') {
 				console.error(`Invalid origin URL: "${origin}"`, e)
 			} else {

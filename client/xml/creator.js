@@ -55,10 +55,3 @@ function createNode(name, value, doc) {
 
 	return node
 }
-
-function createAttributeNode(name, value, doc) {
-	const attribute = doc.createAttribute(name)
-	attribute.value = String(value)
-
-	return attribute
-}

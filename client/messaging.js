@@ -1,7 +1,6 @@
 import { xmlStringToObject } from './xml/parser.js'
-import { objectToXml } from './xml/creator.js'
 import { getObjectType, objectTypes } from './mos/mos-helpers.js'
-import { ncsReqAppInfo } from './mos/ncsReqAppInfo.js';
+import { ncsReqAppInfo } from './mos/ncsReqAppInfo.js'
 
 export { initListeners, signalReadyToHost, sendData }
 
@@ -15,8 +14,8 @@ export { initListeners, signalReadyToHost, sendData }
 function initListeners(hostOrigin, { onNcsItemRequest, onNcsAppInfo }) {
 	window.addEventListener('message', ({ data, origin }) => {
 		if (event.origin !== hostOrigin) {
-			console.log(`Received a message with incorrect origin: "${origin}"`);
-			return;
+			console.log(`Received a message with incorrect origin: "${origin}"`)
+			return
 		}
 
 		try {
