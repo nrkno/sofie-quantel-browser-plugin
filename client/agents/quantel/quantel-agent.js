@@ -53,6 +53,10 @@ class QuantelAgent {
 			.then((xmlString) => xmlStringToObject(xmlString))
 			.then((results) => {
 				const { entry } = results.feed
+				if (!entry) {
+					return { clips: [] }
+				}
+
 				const clips = Array.isArray(entry) ? [...entry] : [entry]
 
 				return { clips: clips.map((clip) => mapClipData(clip, this.host)) }

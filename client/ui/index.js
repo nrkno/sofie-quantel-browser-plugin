@@ -1,16 +1,15 @@
 import { QuantelAgent } from '../agents/quantel/quantel-agent.js'
 import { createQuantelClipNcsItem } from '../mos/ncsItemCreator.js'
+import {
+	tagName as clipListItemTagName,
+	dataAttributeNames as clipListItemAttributeNames
+} from '../components/clip-list-item.js'
 
 export { init }
 
 const classNames = {
 	CLIP_LIST: 'clips',
 	CLIP_ITEM: 'clip'
-}
-
-const dataAttributeNames = {
-	CLIP: 'clip',
-	GUID: 'guid'
 }
 
 /**
@@ -62,7 +61,7 @@ async function init({ onTargetSelect, onTargetCancel }) {
 	setupDragTracking(classNames.CLIP_ITEM, {
 		onDragStart: (clipItem, dataTransfer) => {
 			try {
-				const clipData = clipItem.dataset[dataAttributeNames.CLIP]
+				const clipData = clipItem.dataset[clipListItemAttributeNames.CLIP]
 				if (clipData) {
 					const clip = JSON.parse(clipData)
 					onTargetSelect(clip)
@@ -75,7 +74,7 @@ async function init({ onTargetSelect, onTargetCancel }) {
 			}
 		},
 		onDragEnd: (clipItem) => {
-			const guid = clipItem.dataset[dataAttributeNames.GUID]
+			const guid = clipItem.dataset[clipListItemAttributeNames.GUID]
 			if (guid) {
 				onTargetCancel()
 			}
@@ -121,6 +120,17 @@ function buildClipList(clips) {
 	return clipList
 }
 
+function createClipListElement(clip) {
+	const listItem = document.createElement('li', { is: `${clipListItemTagName}` })
+
+	listItem.setAttribute('draggable', true)
+	listItem.classList.add(classNames.CLIP_ITEM)
+	listItem.dataset[clipListItemAttributeNames.GUID] = clip.guid
+	listItem.dataset[clipListItemAttributeNames.CLIP] = JSON.stringify(clip)
+
+	return listItem
+}
+
 async function performSearch({ server, query }, refreshAfter) {
 	const quantelAgent = new QuantelAgent(server)
 	const result = await quantelAgent.searchClip({ title: query.title })
@@ -130,24 +140,4 @@ async function performSearch({ server, query }, refreshAfter) {
 	if (!Number.isNaN(Number(refreshAfter)) && refreshAfter > 0) {
 		setTimeout(performSearch, refreshAfter, { server, query }, refreshAfter)
 	}
-}
-
-function createClipListElement(clip) {
-	const listItem = document.createElement('li')
-
-	listItem.setAttribute('draggable', true)
-	listItem.classList.add(classNames.CLIP_ITEM)
-	listItem.dataset[dataAttributeNames.GUID] = clip.guid
-	listItem.dataset[dataAttributeNames.CLIP] = JSON.stringify(clip)
-
-	const thumbnail = document.createElement('img')
-	thumbnail.src = clip.thumbnailUrl
-	thumbnail.setAttribute('alt', `Still frame for ${clip.title}`)
-	listItem.appendChild(thumbnail)
-
-	const label = document.createElement('span')
-	label.textContent = clip.title
-	listItem.appendChild(label)
-
-	return listItem
 }
