@@ -7,9 +7,11 @@ import {
 
 export { init }
 
+const DEFAULT_REFRESH_PERIOD = 10000 // ms
+
 const classNames = {
-	CLIP_LIST: 'clips',
-	CLIP_ITEM: 'clip'
+	CLIP_LIST: 'clip-list',
+	CLIP_ITEM: 'clip-list--item'
 }
 
 /**
@@ -29,6 +31,9 @@ async function init({ onTargetSelect, onTargetCancel }) {
 	const titleQuery = params.get('title')
 	const poolIdQuery = params.get('poolId')
 	const createdQuery = params.get('created')
+	const refreshAfter = params.get('refreshAfter')
+		? Number(params.get('refreshAfter'))
+		: DEFAULT_REFRESH_PERIOD
 
 	const origin = params.get('origin')
 	if (origin) {
@@ -55,7 +60,7 @@ async function init({ onTargetSelect, onTargetCancel }) {
 			server,
 			query: { title: titleQuery, poolId: poolIdQuery, created: createdQuery }
 		},
-		10000
+		refreshAfter
 	)
 
 	setupDragTracking(classNames.CLIP_ITEM, {
@@ -137,7 +142,7 @@ async function performSearch({ server, query }, refreshAfter) {
 
 	rebuildClipList(result.clips)
 
-	if (!Number.isNaN(Number(refreshAfter)) && refreshAfter > 0) {
+	if (!Number.isNaN(refreshAfter) && refreshAfter > 0) {
 		setTimeout(performSearch, refreshAfter, { server, query }, refreshAfter)
 	}
 }
