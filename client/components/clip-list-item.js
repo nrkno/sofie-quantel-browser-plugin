@@ -12,11 +12,15 @@ const dataAttributeNames = {
 const classNames = {
 	ROOT: 'clip-element',
 	LABEL: 'clip-element--label',
-	THUMBNAIL: 'clip-element--thumbnail'
+	THUMBNAIL: 'clip-element--thumbnail',
+	BTS: 'bts',
+	STK: 'stk',
+	VB: 'vb',
+	VIGNETT: 'vignett',
+	SUPER: 'super'
 }
 
 const template = html`
-	<link rel="stylesheet" href="./components/clip-list-item.css" />
 	<img class="${classNames.THUMBNAIL}" src="data:," alt="" />
 	<span class="${classNames.LABEL}"></span>
 `
@@ -57,6 +61,7 @@ class ClipListElement extends HTMLLIElement {
 					.join(',')
 
 				label.textContent = title
+				label.classList.add(findLabelTypeClassName(title))
 			}
 		} catch (error) {
 			console.error('Unable to create clip list item', error)
@@ -64,3 +69,21 @@ class ClipListElement extends HTMLLIElement {
 	}
 }
 customElements.define(tagName, ClipListElement, { extends: 'li' })
+
+function findLabelTypeClassName(clipTitle) {
+	if (clipTitle.toLowerCase().startsWith('bts')) {
+		return classNames.BTS
+	}
+	if (clipTitle.toLowerCase().startsWith('stk')) {
+		return classNames.STK
+	}
+	if (clipTitle.toLowerCase().startsWith('vb')) {
+		return classNames.VB
+	}
+	if (clipTitle.toLowerCase().startsWith('vignett')) {
+		return classNames.VIGNETT
+	}
+	if (clipTitle.toLowerCase().startsWith('super')) {
+		return classNames.SUPER
+	}
+}

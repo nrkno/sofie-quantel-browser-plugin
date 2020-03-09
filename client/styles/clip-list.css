@@ -7,14 +7,6 @@
 	padding: 0;
 }
 
-.clip-list--item {
-	display: flex;
-	width: auto;
-	padding: 0 5px 0 0;
-	margin: 8px;
-	user-select: none;
-}
-
 .clip-list:last-child {
 	border-bottom: none;
 }

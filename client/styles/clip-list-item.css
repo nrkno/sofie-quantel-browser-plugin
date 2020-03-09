@@ -1,0 +1,45 @@
+.clip-element {
+	display: grid;
+	grid-template-areas: 'clip-display';
+	position: relative;
+
+	background: rgba(255, 255, 255, 0.1);
+
+	width: auto;
+	margin: 8px;
+	height: 0;
+	padding-bottom: calc(56.25% - 9px);
+	overflow: hidden;
+
+	user-select: none;
+}
+
+.clip-element--label {
+	background-color: black;
+	grid-area: clip-display;
+	position: absolute;
+	height: 2.2em;
+	line-height: 1.1em;
+	width: 100%;
+}
+
+.clip-element--thumbnail {
+	grid-area: clip-display;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.clip-element--label.bts,
+.clip-element--label.stk {
+	background: linear-gradient(to bottom, #1769ff 50%, #18791c 50%);
+}
+
+.clip-element--label.vb,
+.clip-element--label.vignett {
+	background: #1769ff;
+}
+
+.clip-element--label.super {
+	background: #de6f2b;
+}
