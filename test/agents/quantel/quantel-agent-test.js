@@ -101,6 +101,21 @@ describe('Quantel Agent', () => {
 
 					assert.equals(actual, expected)
 				})
+
+				it('should set the thumbnailSet property to a mapped array of stills for different sizes', async () => {
+					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const clipId = (await results).clips[0].clipId
+					const expected = {
+						128: `${serverUrl}/quantel/homezone/clips/stills/${clipId}/0.128.jpg`,
+						256: `${serverUrl}/quantel/homezone/clips/stills/${clipId}/0.256.jpg`,
+						384: `${serverUrl}/quantel/homezone/clips/stills/${clipId}/0.384.jpg`,
+						512: `${serverUrl}/quantel/homezone/clips/stills/${clipId}/0.512.jpg`
+					}
+
+					const actual = (await results).clips[0].thumbnailSet
+
+					assert.match(actual, expected)
+				})
 			})
 		})
 	})

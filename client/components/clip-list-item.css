@@ -1,15 +1,21 @@
 .clip-element {
-	background: linear-gradient(to bottom, #1769ff 50%, #18791c 50%);
-}
+	display: grid;
+	grid-template-areas: 'clip-display';
+	position: relative;
 
-.clip-element {
 	background: rgba(255, 255, 255, 0.1);
 }
 
 .clip-element--label {
+	grid-area: clip-display;
+	background: linear-gradient(to bottom, #1769ff 50%, #18791c 50%);
+	position: absolute;
+	height: 2em;
+	width: 100%;
 }
 
 .clip-element--thumbnail {
+	grid-area: clip-display;
 	width: 100%;
 	margin: 0 8px 0 0;
 	padding: 0;

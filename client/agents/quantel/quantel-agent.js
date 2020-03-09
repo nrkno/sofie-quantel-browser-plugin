@@ -3,8 +3,8 @@ import { xmlStringToObject } from '../../xml/parser.js'
 export { QuantelAgent }
 
 const paths = {
-	SEARCH: '/quantel/homezone/clips/search',
-	STILLS: '/quantel/homezone/clips/stills/'
+	SEARCH: 'quantel/homezone/clips/search',
+	STILLS: 'quantel/homezone/clips/stills/'
 }
 
 const REQUESTS = {
@@ -70,7 +70,12 @@ function mapClipData({ content }, serverHost) {
 		title: content.Title,
 		frames: content.Frames,
 		clipId: content.ClipID,
-		thumbnailUrl: `${serverHost}${paths.STILLS}${content.ClipID}/0.128.jpg`
+		thumbnailUrl: `${serverHost}/${paths.STILLS}${content.ClipID}/0.128.jpg`,
+		thumbnailSet: buildThumbnailSrcSet({
+			serverHost,
+			clipId: content.ClipID,
+			sizes: [128, 256, 384, 512]
+		})
 	}
 }
 
@@ -80,4 +85,14 @@ function buildQueryParam({ title, poolId, created }) {
 	const createdFragment = created ? `AND Created:${created}` : ''
 
 	return `${titleFragment}${poolIdFragment}${createdFragment}`
+}
+
+function buildThumbnailSrcSet({ serverHost, clipId, sizes }) {
+	const srcSet = {}
+	sizes.forEach((size) => {
+		const url = `${serverHost}/${paths.STILLS}${clipId}/0.${size}.jpg`
+		srcSet[size] = url
+	})
+
+	return srcSet
 }
