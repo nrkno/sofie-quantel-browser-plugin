@@ -7,6 +7,39 @@
 		<link rel="stylesheet" href="index.css" />
 	</head>
 	<body>
+		<form action="#" method="get">
+			<fieldset>
+				<input type="text" name="title" placeholder="Søk" />
+				<select name="period">
+					<option value="today">I dag</option>
+					<option value="week">Siste uke</option>
+					<option value="month">Siste uke</option>
+					<option value="year">Siste uke</option>
+				</select>
+			</fieldset>
+			<fieldset>
+				<label class="vignett">
+					Vignett
+					<input type="checkbox" name="vignett" />
+				</label>
+				<label class="super">
+					Super
+					<input type="checkbox" name="super" />
+				</label>
+				<label class="vb">
+					VB
+					<input type="checkbox" name="vb" />
+				</label>
+				<label class="bts">
+					BTS
+					<input type="checkbox" name="bts" />
+				</label>
+				<label class="stk">
+					STK
+					<input type="checkbox" name="stk" />
+				</label>
+			</fieldset>
+		</form>
 		<script src="index.js" type="module"></script>
 	</body>
 </html>
