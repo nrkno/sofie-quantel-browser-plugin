@@ -27,7 +27,7 @@ const classNames = {
  */
 async function init({ onTargetSelect, onTargetCancel }) {
 	const params = new URLSearchParams(document.location.search.substring(1))
-	const server = params.get('server') || document.location.origin + '/api'
+	const server = params.get('server') || document.location.origin + '/api/'
 	const titleQuery = params.get('title')
 	const poolIdQuery = params.get('poolId')
 	const createdQuery = params.get('created')
