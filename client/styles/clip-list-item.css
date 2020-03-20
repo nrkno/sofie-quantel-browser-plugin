@@ -28,6 +28,8 @@
 	width: 100%;
 	margin: 0;
 	padding: 0;
+	user-select: none;
+	pointer-events: none;
 }
 
 .clip-element--label.bts,
