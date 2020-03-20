@@ -2,16 +2,10 @@
 
 pipeline {
   agent any
-  tools {nodejs "node12"}
+  tools {
+    nodejs "node12"
+  }
   stages {
-    stage('Version') {
-      when {
-        branch 'master'
-      }
-      steps {
-        gatewayRelease()
-      }
-    }
     stage('Build') {
       steps {
         sofieSlackSendBuildStarted()
