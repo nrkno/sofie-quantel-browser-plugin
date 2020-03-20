@@ -2,7 +2,7 @@
 
 pipeline {
   agent any
-  tools {nodejs "12.16.1"}
+  tools {nodejs "node12"}
   stages {
     stage('Version') {
       when {
