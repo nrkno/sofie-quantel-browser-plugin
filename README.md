@@ -20,7 +20,7 @@ There is no building or transpiling required, so alternatively the files in `/cl
 
 Plugin configuration is done through environment variables.
 
-| Environment Variable | Use                                                             |
-| -------------------- | --------------------------------------------------------------- |
-| PORT                 | Specify the port that will be used to server the user interface |
-| QUANTEL_GW_URL       | The URL for the Quantel Gateway                                 |
+| Environment Variable    | Use                                                             |
+| ----------------------- | --------------------------------------------------------------- |
+| PORT                    | Specify the port that will be used to server the user interface |
+| QUANTEL_TRANSFORMER_URL | The URL for the Quantel HTTP Transformer                        |
