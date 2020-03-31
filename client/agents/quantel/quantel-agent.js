@@ -49,7 +49,12 @@ class QuantelAgent {
 		url.searchParams.append(params.QUERY, queryParamValue)
 
 		return fetch(url.href)
-			.then((response) => response.text())
+			.then((response) => {
+				if (response.ok) {
+					return response.text()
+				} else
+					throw new Error(`Unable to fetch results: ${response.status} - ${response.statusText}`)
+			})
 			.then((xmlString) => xmlStringToObject(xmlString))
 			.then((results) => {
 				const { entry } = results.feed

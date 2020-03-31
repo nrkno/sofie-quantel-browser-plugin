@@ -13,7 +13,8 @@ describe('Quantel Agent', () => {
 		global.window = dom.window
 		global.document = dom.window.document
 		const fetch = sinon.fake.resolves({
-			text: async () => sampleXmlResults
+			text: async () => sampleXmlResults,
+			ok: true
 		})
 		global.window.fetch = fetch
 		global.fetch = fetch
@@ -116,6 +117,23 @@ describe('Quantel Agent', () => {
 
 					assert.match(actual, expected)
 				})
+			})
+		})
+
+		describe('Error handling', () => {
+			it('should throw on HTTP 500', () => {
+				const fetch = sinon.fake.resolves({
+					text: async () => sampleXmlResults,
+					ok: false,
+					status: 500,
+					statusText: 'Internal server error'
+				})
+				global.window.fetch = fetch
+				global.fetch = fetch
+
+				const agent = new QuantelAgent('http://quantel')
+
+				assert.exception(agent.searchClip('who cares?'))
 			})
 		})
 	})
