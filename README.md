@@ -1,6 +1,6 @@
 # quantel-browser-plugin
 
-MOS compatible Quantel video clip browser for Sofie.
+MOS-compatible Quantel video clip browser for Sofie.
 
 Requires a newer web browser that supports ES modules.
 
@@ -24,3 +24,8 @@ Plugin configuration is done through environment variables.
 | ----------------------- | --------------------------------------------------------------- |
 | PORT                    | Specify the port that will be used to server the user interface |
 | QUANTEL_TRANSFORMER_URL | The URL for the Quantel HTTP Transformer                        |
+
+
+---
+
+*The NRK logo is a registered trademark of Norsk rikskringkasting AS. The license does not grant any right to use, in any way, any trademarks, service marks or logos of Norsk rikskringkasting AS.*
