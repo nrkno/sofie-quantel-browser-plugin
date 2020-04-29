@@ -1,7 +1,8 @@
-# quantel-browser-plugin
+# Sofie: The Modern TV News Studio Automation System (tv-automation-server-core)
 
-MOS-compatible Quantel video clip browser for Sofie.
+A MOS-compatible Quantel video clip browser for [**Sofie** TV News Studio Automation System](https://github.com/nrkno/Sofie-TV-automation/).
 
+## Requirements
 Requires a newer web browser that supports ES modules.
 
 ## How to use
