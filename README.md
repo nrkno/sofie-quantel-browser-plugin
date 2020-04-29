@@ -1,4 +1,4 @@
-# Sofie: The Modern TV News Studio Automation System (tv-automation-server-core)
+# Sofie: The Modern TV News Studio Automation System (tv-automation-quantel-browser-plugin)
 
 A MOS-compatible Quantel video clip browser for [**Sofie** TV News Studio Automation System](https://github.com/nrkno/Sofie-TV-automation/).
 
