@@ -22,9 +22,11 @@ class QuantelAgent {
 	 * Create an agent.
 	 *
 	 * @param {string} host - Address to the Quantel server to query
+	 * @param {string} criteria.poolId - scope the search to a specified pool
 	 */
-	constructor(host) {
+	constructor(host, poolId) {
 		this.host = host
+		this.poolId = poolId || null
 	}
 
 	/**
@@ -36,7 +38,6 @@ class QuantelAgent {
 	 *
 	 * @param {object} criteria - query criteria
 	 * @param {string} criteria.title - clip title criteria. * is allowed as a wildcard
-	 * @param {string} criteria.poolId - scope the search to a specified pool
 	 * @param {string} criteria.created - scope the search to clips created in a specific period
 	 *
 	 * @returns {Promise} - a promise containing the search results
@@ -45,7 +46,11 @@ class QuantelAgent {
 		const { path, params } = REQUESTS.CLIP_SEARCH
 		const url = new URL(this.host)
 		url.pathname = url.pathname + path
-		const queryParamValue = buildQueryParam(criteria)
+		const queryParamValue = buildQueryParam(
+			Object.assign({}, criteria, {
+				poolId: this.poolId
+			})
+		)
 		url.searchParams.append(params.QUERY, queryParamValue)
 
 		return fetch(url.href)
@@ -55,7 +60,7 @@ class QuantelAgent {
 				} else
 					throw new Error(`Unable to fetch results: ${response.status} - ${response.statusText}`)
 			})
-			.then((xmlString) => xmlStringToObject(xmlString))
+			.then(xmlStringToObject)
 			.then((results) => {
 				const { entry } = results.feed
 				if (!entry) {

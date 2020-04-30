@@ -1,4 +1,4 @@
-import { assert, sinon } from '@sinonjs/referee-sinon'
+import { assert, refute, sinon } from '@sinonjs/referee-sinon'
 import { QuantelAgent } from '../../../client/agents/quantel/quantel-agent.js'
 import { readFileSync } from 'fs'
 import path from 'path'
@@ -31,6 +31,16 @@ describe('Quantel Agent', () => {
 
 				assert.equals(actual.protocol, hostUrl.protocol)
 				assert.equals(actual.host, hostUrl.host)
+			})
+
+			it('should use pool id given in constructor', async () => {
+				const poolId = '6140'
+
+				const agent = new QuantelAgent('http://quantel', poolId)
+				await agent.searchClip('hehe')
+				const actual = new URL(fetch.lastArg).searchParams.get('q')
+
+				assert.contains(actual, `AND PoolID:${poolId}`)
 			})
 
 			it('should query using the correct path', async () => {
@@ -121,7 +131,7 @@ describe('Quantel Agent', () => {
 		})
 
 		describe('Error handling', () => {
-			it('should throw on HTTP 500', () => {
+			it('should throw on HTTP 500', async () => {
 				const fetch = sinon.fake.resolves({
 					text: async () => sampleXmlResults,
 					ok: false,
@@ -133,7 +143,12 @@ describe('Quantel Agent', () => {
 
 				const agent = new QuantelAgent('http://quantel')
 
-				assert.exception(agent.searchClip('who cares?'))
+				try {
+					await agent.searchClip('whatever')
+					refute(true, 'Should have thrown')
+				} catch (err) {
+					// success!
+				}
 			})
 		})
 	})

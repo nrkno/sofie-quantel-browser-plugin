@@ -4,6 +4,7 @@ import {
 	tagName as clipListItemTagName,
 	dataAttributeNames as clipListItemAttributeNames
 } from '../components/clip-list-item.js'
+import { init as initSearchForm } from './search-form.js'
 
 export { init }
 
@@ -29,7 +30,7 @@ async function init({ onTargetSelect, onTargetCancel }) {
 	const params = new URLSearchParams(document.location.search.substring(1))
 	const server = params.get('server') || document.location.origin + '/api'
 	const titleQuery = params.get('title')
-	const poolIdQuery = params.get('poolId')
+	const poolId = params.get('poolId')
 	const createdQuery = params.get('created')
 	const refreshAfter = params.get('refreshAfter')
 		? Number(params.get('refreshAfter'))
@@ -55,10 +56,22 @@ async function init({ onTargetSelect, onTargetCancel }) {
 		}
 	}
 
+	const quantelAgent = new QuantelAgent(server, poolId)
+
+	initSearchForm(
+		({ term, filter, period }) => {
+			const title = `${filter ? filter : ''}*${term ? term + '*' : ''}`
+			const created = period
+
+			performSearch({ agent: quantelAgent, query: { title, created } })
+		},
+		{ titleQuery }
+	)
+
 	performSearch(
 		{
-			server,
-			query: { title: titleQuery, poolId: poolIdQuery, created: createdQuery }
+			agent: quantelAgent,
+			query: { title: titleQuery, created: createdQuery }
 		},
 		refreshAfter
 	)
@@ -105,13 +118,14 @@ function setupDragTracking(className, { onDragStart, onDragEnd }) {
 	})
 }
 
-function rebuildClipList(clips) {
+function displaySearchResults(clips) {
+	const resultsContainer = document.querySelector('.search-results')
 	const newClipList = buildClipList(clips)
 	const oldClipList = document.querySelector(`.${classNames.CLIP_LIST}`)
 	if (oldClipList) {
 		oldClipList.parentElement.replaceChild(newClipList, oldClipList)
 	} else {
-		document.body.appendChild(newClipList)
+		resultsContainer.appendChild(newClipList)
 	}
 }
 
@@ -136,13 +150,22 @@ function createClipListElement(clip) {
 	return listItem
 }
 
-async function performSearch({ server, query }, refreshAfter) {
-	const quantelAgent = new QuantelAgent(server)
-	const result = await quantelAgent.searchClip({ title: query.title })
+function setHitCounter(hitCount) {
+	document.querySelectorAll('.hit-counts--counter').forEach((counter) => {
+		counter.textContent = hitCount
+	})
+}
 
-	rebuildClipList(result.clips)
+async function performSearch({ agent, query }, refreshAfter) {
+	try {
+		const result = await agent.searchClip({ title: query.title })
 
+		setHitCounter(result.clips.length)
+		displaySearchResults(result.clips)
+	} catch (error) {
+		console.log('Error while building clip list', error)
+	}
 	if (!Number.isNaN(refreshAfter) && refreshAfter > 0) {
-		setTimeout(performSearch, refreshAfter, { server, query }, refreshAfter)
+		setTimeout(performSearch, refreshAfter, { agent, query }, refreshAfter)
 	}
 }

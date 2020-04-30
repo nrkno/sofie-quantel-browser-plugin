@@ -3,10 +3,11 @@
 	grid-template-areas: 'clip-display';
 	position: relative;
 
-	background: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.1);
+	background-image: url('../assets/thumbnail-placeholders/thumbnail-placeholder-512x288.gif');
+	background-size: cover;
 
 	width: auto;
-	margin: 8px;
 	height: 0;
 	padding-bottom: calc(56.25% - 9px);
 	overflow: hidden;

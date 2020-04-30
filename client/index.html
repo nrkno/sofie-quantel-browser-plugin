@@ -7,39 +7,42 @@
 		<link rel="stylesheet" href="index.css" />
 	</head>
 	<body>
-		<form action="#" method="get">
+		<form action="#" method="get" class="search-form" name="searchForm">
 			<fieldset>
-				<input type="text" name="title" placeholder="Søk" />
-				<select name="period">
+				<input type="text" name="title" class="form-input" placeholder="Søk" />
+				<select name="period" class="form-input">
 					<option value="today">I dag</option>
 					<option value="week">Siste uke</option>
 					<option value="month">Siste uke</option>
 					<option value="year">Siste uke</option>
 				</select>
 			</fieldset>
-			<fieldset>
-				<label class="vignett">
+			<fieldset class="categories">
+				<label class="vignett form-input category-toggle">
 					Vignett
-					<input type="checkbox" name="vignett" />
+					<input type="checkbox" name="vignett" value="vignett" />
 				</label>
-				<label class="super">
+				<label class="super form-input category-toggle">
 					Super
-					<input type="checkbox" name="super" />
+					<input type="checkbox" name="super" value="super" />
 				</label>
-				<label class="vb">
+				<label class="vb form-input category-toggle">
 					VB
-					<input type="checkbox" name="vb" />
+					<input type="checkbox" name="vb" value="vb" />
 				</label>
-				<label class="bts">
+				<label class="bts form-input category-toggle">
 					BTS
-					<input type="checkbox" name="bts" />
+					<input type="checkbox" name="bts" value="bts" />
 				</label>
-				<label class="stk">
+				<label class="stk form-input category-toggle">
 					STK
-					<input type="checkbox" name="stk" />
+					<input type="checkbox" name="stk" value="stk" />
 				</label>
 			</fieldset>
 		</form>
+		<section class="search-results">
+			<p class="hit-counts">Showing <span class="hit-counts--counter">0</span> clips</p>
+		</section>
 		<script src="index.js" type="module"></script>
 	</body>
 </html>
