@@ -1,0 +1,15 @@
+:root {
+	--video-signal-green: #18791c;
+	--video-signal-blue: #1769ff;
+	--video-signal-orange: #de6f2b;
+
+	--vb-background: var(--video-signal-blue);
+	--vignett-background: var(--video-signal-blue);
+	--super-background: var(--video-signal-orange);
+	--bts-background: linear-gradient(
+		to bottom,
+		var(--video-signal-blue) 50%,
+		var(--video-signal-green) 50%
+	);
+	--stk-background: var(--bts-background);
+}

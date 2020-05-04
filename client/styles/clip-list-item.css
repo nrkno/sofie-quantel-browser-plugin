@@ -10,7 +10,14 @@
 	width: auto;
 	height: 0;
 	padding-bottom: calc(56.25% - 9px);
+	border-radius: 4px;
 	overflow: hidden;
+
+	font-family: 'Roboto Condensed', Roboto, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	letter-spacing: 0.375px;
+	text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.8);
 
 	user-select: none;
 }
@@ -19,8 +26,9 @@
 	background-color: black;
 	grid-area: clip-display;
 	position: absolute;
-	height: 2.2em;
-	line-height: 1.1em;
+	height: 2.28em;
+	line-height: 1.14em;
+	padding: 4px;
 	width: 100%;
 }
 
@@ -31,16 +39,21 @@
 	padding: 0;
 }
 
-.clip-element--label.bts,
+.clip-element--label.bts {
+	background: var(--bts-background);
+}
 .clip-element--label.stk {
-	background: linear-gradient(to bottom, #1769ff 50%, #18791c 50%);
+	background: var(--stk-background);
 }
 
-.clip-element--label.vb,
+.clip-element--label.vb {
+	background: var(--vb-background);
+}
+
 .clip-element--label.vignett {
-	background: #1769ff;
+	background: var(--vignett-background);
 }
 
 .clip-element--label.super {
-	background: #de6f2b;
+	background: var(--super-background);
 }

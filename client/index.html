@@ -9,40 +9,43 @@
 	<body>
 		<form action="#" method="get" class="search-form" name="searchForm">
 			<fieldset>
-				<input type="text" name="title" class="form-input" placeholder="Søk" />
+				<input type="text" name="title" class="form-input title-input" placeholder="Søk" />
 				<select name="period" class="form-input">
+					<option value="">Ingen tidsbegrensning</option>
 					<option value="today">I dag</option>
-					<option value="week">Siste uke</option>
-					<option value="month">Siste uke</option>
-					<option value="year">Siste uke</option>
+					<option value="week">Siste 7 dager</option>
+					<option value="month">Siste 30 dager</option>
+					<option value="year">Siste 365 dager</option>
 				</select>
 			</fieldset>
 			<fieldset class="categories">
 				<label class="vignett form-input category-toggle">
-					Vignett
-					<input type="checkbox" name="vignett" value="vignett" />
+					<input class="category-toggle--checkbox" type="checkbox" name="vignett" value="vignett" />
+					<span class="category-toggle--label">Vignett</span>
 				</label>
+
 				<label class="super form-input category-toggle">
-					Super
-					<input type="checkbox" name="super" value="super" />
+					<input class="category-toggle--checkbox" type="checkbox" name="super" value="super" />
+					<span class="category-toggle--label">Super</span>
 				</label>
+
 				<label class="vb form-input category-toggle">
-					VB
-					<input type="checkbox" name="vb" value="vb" />
+					<input class="category-toggle--checkbox" type="checkbox" name="vb" value="vb" />
+					<span class="category-toggle--label">VB</span>
 				</label>
+
 				<label class="bts form-input category-toggle">
-					BTS
-					<input type="checkbox" name="bts" value="bts" />
+					<input class="category-toggle--checkbox" type="checkbox" name="bts" value="bts" />
+					<span class="category-toggle--label">BTS</span>
 				</label>
+
 				<label class="stk form-input category-toggle">
-					STK
-					<input type="checkbox" name="stk" value="stk" />
+					<input class="category-toggle--checkbox" type="checkbox" name="stk" value="stk" />
+					<span class="category-toggle--label">STK</span>
 				</label>
 			</fieldset>
 		</form>
-		<section class="search-results">
-			<p class="hit-counts">Showing <span class="hit-counts--counter">0</span> clips</p>
-		</section>
+		<section class="search-results"></section>
 		<script src="index.js" type="module"></script>
 	</body>
 </html>

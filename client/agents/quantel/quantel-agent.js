@@ -1,6 +1,6 @@
 import { xmlStringToObject } from '../../xml/parser.js'
 
-export { QuantelAgent }
+export { QuantelAgent, periodPresets }
 
 const paths = {
 	SEARCH: 'quantel/homezone/clips/search',
@@ -14,6 +14,13 @@ const REQUESTS = {
 			QUERY: 'q'
 		}
 	}
+}
+
+const periodPresets = {
+	TODAY: '[NOW-1DAY/DAY TO NOW]',
+	LAST_7_DAYS: '[NOW-7DAY/DAY TO NOW]',
+	LAST_30_DAYS: '[NOW-30DAY/DAY TO NOW]',
+	LAST_365_DAYS: '[NOW-365DAY/DAY TO NOW]'
 }
 
 /** Agent for quering a Quantel media server */
@@ -92,7 +99,7 @@ function mapClipData({ content }, serverHost) {
 function buildQueryParam({ title, poolId, created }) {
 	const titleFragment = `Title:${title || '*'}`
 	const poolIdFragment = poolId ? ` AND PoolID:${poolId}` : ''
-	const createdFragment = created ? `AND Created:${created}` : ''
+	const createdFragment = created ? ` AND Created:${created}` : ''
 
 	return `${titleFragment}${poolIdFragment}${createdFragment}`
 }

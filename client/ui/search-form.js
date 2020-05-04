@@ -1,64 +1,77 @@
+import { periodPresets } from '../agents/quantel/quantel-agent.js'
+
 export { init }
 
-const names = {
+const elementNames = {
 	FORM: 'searchForm',
-	TITLE: 'title',
-	PERIOD: 'period',
-	VIGNETT: 'vignett',
-	SUPER: 'super',
-	VB: 'vb',
-	BTS: 'bts',
-	STK: 'stk'
+	TITLE_INPUT: 'title',
+	PERIOD_INPUT: 'period'
 }
 
 const classNames = {
-	FILTER_CHECKBOX: 'category-toggle'
+	FILTER_CHECKBOX: 'category-toggle--checkbox'
 }
 
-const filterValues = [names.VIGNETT, names.SUPER, names.VB, names.BTS, names.STK].map(
-	(name) => document.forms[names.FORM][name].value
-)
+const periodValueMap = {
+	today: periodPresets.TODAY,
+	week: periodPresets.LAST_7_DAYS,
+	month: periodPresets.LAST_30_DAYS,
+	year: periodPresets.LAST_365_DAYS
+}
+
+const filterValues = Array.from(
+	document.forms[elementNames.FORM].querySelectorAll(`.${classNames.FILTER_CHECKBOX}`)
+).map((checkbox) => checkbox.value)
 
 function init(performSearch, { titleQuery }) {
 	const { term, filter } = parseTitleQuery(titleQuery)
-	console.log(`term: ${term}, filter: ${filter}`)
 
-	const titleInput = document.forms[names.FORM][names.TITLE]
+	const titleInput = document.forms[elementNames.FORM][elementNames.TITLE_INPUT]
 	if (term) {
 		titleInput.value = term
 	}
 
 	if (filter) {
-		document
-			.querySelectorAll(`.${classNames.FILTER_CHECKBOX} input[type=checkbox]`)
+		document.forms[elementNames.FORM]
+			.querySelectorAll(`.${classNames.FILTER_CHECKBOX}`)
 			.forEach((checkbox) => {
-				console.log(checkbox)
-				if (filter === checkbox.value) {
-					checkbox.setAttribute('checked', 'checked')
-				}
-				console.log(checkbox)
+				checkbox.checked = filter === checkbox.value
 			})
 	}
 
-	document.forms[names.FORM].addEventListener('submit', (event) => {
+	document.forms[elementNames.FORM].addEventListener('submit', (event) => {
 		event.preventDefault()
 		submitQuery(performSearch)
 	})
 
-	document.forms[names.FORM].addEventListener('change', (event) => {
+	document.forms[elementNames.FORM].addEventListener('change', (event) => {
 		const { target } = event
-		if (!target.isSameNode(titleInput)) {
-			submitQuery(performSearch)
+
+		if (target.isSameNode(titleInput)) {
+			return // don't run a search for each character typed/erased, text search is handled on submit
 		}
+
+		if (target.classList.contains(classNames.FILTER_CHECKBOX)) {
+			document.forms[elementNames.FORM]
+				.querySelectorAll(`.${classNames.FILTER_CHECKBOX}`)
+				.forEach((checkbox) => {
+					if (!checkbox.isSameNode(target)) {
+						checkbox.checked = target.value === checkbox.value
+					}
+				})
+		}
+
+		submitQuery(performSearch)
 	})
 }
 
 function submitQuery(callback) {
-	const term = document.forms[names.FORM][names.TITLE].value || ''
-	const category = document.forms[names.FORM].querySelector(
+	const term = document.forms[elementNames.FORM][elementNames.TITLE_INPUT].value || ''
+	const category = document.forms[elementNames.FORM].querySelector(
 		`.${classNames.FILTER_CHECKBOX}:checked`
 	)
-	const period = document.forms[names.FORM][names.PERIOD].value
+
+	const period = periodValueMap[document.forms[elementNames.FORM][elementNames.PERIOD_INPUT].value]
 
 	callback({ term, filter: category ? category.value : null, period })
 }
@@ -69,7 +82,7 @@ function parseTitleQuery(title) {
 	}
 
 	const result = title.split('*')
-	console.log(result)
+
 	if (result && filterValues.indexOf(result[0]) > -1) {
 		return {
 			filter: result[0],

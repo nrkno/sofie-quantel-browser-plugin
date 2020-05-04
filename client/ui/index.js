@@ -61,9 +61,8 @@ async function init({ onTargetSelect, onTargetCancel }) {
 	initSearchForm(
 		({ term, filter, period }) => {
 			const title = `${filter ? filter : ''}*${term ? term + '*' : ''}`
-			const created = period
 
-			performSearch({ agent: quantelAgent, query: { title, created } })
+			performSearch({ agent: quantelAgent, query: { title, created: period } })
 		},
 		{ titleQuery }
 	)
@@ -150,17 +149,10 @@ function createClipListElement(clip) {
 	return listItem
 }
 
-function setHitCounter(hitCount) {
-	document.querySelectorAll('.hit-counts--counter').forEach((counter) => {
-		counter.textContent = hitCount
-	})
-}
-
 async function performSearch({ agent, query }, refreshAfter) {
 	try {
-		const result = await agent.searchClip({ title: query.title })
+		const result = await agent.searchClip(query)
 
-		setHitCounter(result.clips.length)
 		displaySearchResults(result.clips)
 	} catch (error) {
 		console.log('Error while building clip list', error)
