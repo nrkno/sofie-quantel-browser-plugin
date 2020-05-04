@@ -9,14 +9,14 @@ const router = new Router()
 
 const SERVER_PORT = process.env.PORT || 9000
 
-const QUANTEL_GW_URL = process.env.QUANTEL_GW_URL
+const QUANTEL_TRANSFORMER_URL = process.env.QUANTEL_TRANSFORMER_URL
 
 const packageInfo = require('../package.json')
 
 router.all('/api/(.*)', async (ctx, next) => {
 	// console.log(ctx.request.method, ctx.params['0'], ctx.request.querystring);
-	if (!QUANTEL_GW_URL) {
-		ctx.body = 'Quantel Gateway not selected.'
+	if (!QUANTEL_TRANSFORMER_URL) {
+		ctx.body = 'Quantel Transformer not selected.'
 		ctx.status = 502
 		next()
 
@@ -27,7 +27,7 @@ router.all('/api/(.*)', async (ctx, next) => {
 	const location = ctx.params['0']
 	const query = ctx.request.querystring
 
-	const href = `${QUANTEL_GW_URL}/${location}?${query}`
+	const href = `${QUANTEL_TRANSFORMER_URL}/${location}?${query}`
 
 	try {
 		const response = await fetch(href, {
@@ -50,14 +50,13 @@ router.all('/api/(.*)', async (ctx, next) => {
 	next()
 })
 
-app
-	.use(async (ctx, next) => {
-		await next()
+app.use(async (ctx, next) => {
+	await next()
 
-		ctx.set({
-			Server: `${packageInfo.name}/${packageInfo.version}`
-		})
+	ctx.set({
+		Server: `${packageInfo.name}/${packageInfo.version}`
 	})
+})
 	.use(router.routes())
 	.use(serve('./client/'))
 	.listen(SERVER_PORT)

@@ -65,7 +65,9 @@ class QuantelAgent {
 				if (response.ok) {
 					return response.text()
 				} else
-					throw new Error(`Unable to fetch results: ${response.status} - ${response.statusText}`)
+					throw new Error(
+						`Unable to fetch results: ${response.status} - ${response.statusText}`
+					)
 			})
 			.then(xmlStringToObject)
 			.then((results) => {
@@ -87,7 +89,7 @@ function mapClipData({ content }, serverHost) {
 		title: content.Title,
 		frames: content.Frames,
 		clipId: content.ClipID,
-		thumbnailUrl: `${serverHost}/${paths.STILLS}${content.ClipID}/0.128.jpg`,
+		thumbnailUrl: `${serverHost}${paths.STILLS}${content.ClipID}/0.128.jpg`,
 		thumbnailSet: buildThumbnailSrcSet({
 			serverHost,
 			clipId: content.ClipID,
@@ -107,7 +109,7 @@ function buildQueryParam({ title, poolId, created }) {
 function buildThumbnailSrcSet({ serverHost, clipId, sizes }) {
 	const srcSet = {}
 	sizes.forEach((size) => {
-		const url = `${serverHost}/${paths.STILLS}${clipId}/0.${size}.jpg`
+		const url = `${serverHost}${paths.STILLS}${clipId}/0.${size}.jpg`
 		srcSet[size] = url
 	})
 

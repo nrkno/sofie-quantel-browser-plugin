@@ -9,9 +9,11 @@
 	"scripts": {
 		"start": "node server/index.js",
 		"lint": "eslint . --ext .js",
-		"lint:fix": "npm run lint -- --fix",
+		"lint:fix": "yarn lint -- --fix",
 		"test": "mocha \"./{,!(node_modules)/**/}*-test.js\"",
-		"test:watch": "npm run test -- -w --reporter min"
+		"test:watch": "yarn test -- -w --reporter min",
+		"reset": "git clean -dfx && git reset --hard && yarn",
+		"release": "yarn reset && yarn test"
 	},
 	"repository": {
 		"type": "git",
