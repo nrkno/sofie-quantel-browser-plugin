@@ -1,4 +1,7 @@
 :root {
+	--background-color: #252627;
+	--text-color: #fff;
+
 	--video-signal-green: #18791c;
 	--video-signal-blue: #1769ff;
 	--video-signal-orange: #de6f2b;

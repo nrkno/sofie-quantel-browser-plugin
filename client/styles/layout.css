@@ -1,9 +1,9 @@
 body {
-	background-color: #252627;
+	background-color: var(--background-color);
 	background-image: radial-gradient(100% 100% at 49.92% 0%, #2b2b2b 29.18%, #0e0e0e 99.99%);
 	background-size: contain;
 	background-repeat: no-repeat;
-	color: #fff;
+	color: var(--text-color);
 
 	padding: 0 20px 40px;
 }

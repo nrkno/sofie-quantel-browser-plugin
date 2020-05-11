@@ -11,7 +11,8 @@
 }
 
 .form-input option {
-	color: #000;
+	background-color: var(--background-color);
+	color: var(--text-color);
 }
 
 .title-input {
