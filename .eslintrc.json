@@ -16,7 +16,7 @@
 		},
 		{
 			"files": ["server/*.js"],
-			"env": { "node": true }
+			"env": { "node": true, "browser": false }
 		}
 	]
 }

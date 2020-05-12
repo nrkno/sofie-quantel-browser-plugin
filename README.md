@@ -3,6 +3,7 @@
 A MOS-compatible Quantel video clip browser for [**Sofie** TV News Studio Automation System](https://github.com/nrkno/Sofie-TV-automation/).
 
 ## Requirements
+
 Requires a newer web browser that supports ES modules.
 
 ## How to use
@@ -26,7 +27,6 @@ Plugin configuration is done through environment variables.
 | PORT                    | Specify the port that will be used to server the user interface |
 | QUANTEL_TRANSFORMER_URL | The URL for the Quantel HTTP Transformer                        |
 
-
 ---
 
-*The NRK logo is a registered trademark of Norsk rikskringkasting AS. The license does not grant any right to use, in any way, any trademarks, service marks or logos of Norsk rikskringkasting AS.*
+_The NRK logo is a registered trademark of Norsk rikskringkasting AS. The license does not grant any right to use, in any way, any trademarks, service marks or logos of Norsk rikskringkasting AS._
