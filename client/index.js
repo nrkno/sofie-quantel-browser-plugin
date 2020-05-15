@@ -3,7 +3,7 @@ import { setSelected, getSelected, clearSelected } from './state.js'
 import {
 	initListeners as messagingInitListeners,
 	signalReadyToHost as messagingSignalReady,
-	sendData
+	sendXmlData
 } from './messaging.js'
 import { createQuantelClipNcsItem } from './mos/ncsItemCreator.js'
 
@@ -22,7 +22,7 @@ uiInit({
 			const selected = getSelected()
 			if (selected && window.parent) {
 				const ncsItem = createQuantelClipNcsItem(selected)
-				sendData(window.parent, ncsItem)
+				sendXmlData(window.parent, ncsItem)
 			}
 		},
 		onNcsAppInfo: (obj) => {

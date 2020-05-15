@@ -2,7 +2,7 @@ import { xmlStringToObject } from './xml/parser.js'
 import { getObjectType, objectTypes } from './mos/mos-helpers.js'
 import { ncsReqAppInfo } from './mos/ncsReqAppInfo.js'
 
-export { initListeners, signalReadyToHost, sendData }
+export { initListeners, signalReadyToHost, sendData, sendXmlData }
 
 /**
  * Initialize messaging event listeners.
@@ -40,15 +40,25 @@ function initListeners(hostOrigin, { onNcsItemRequest, onNcsAppInfo }) {
  */
 function signalReadyToHost() {
 	if (window.parent && window.parent !== window) {
-		sendData(window.parent, ncsReqAppInfo())
+		sendXmlData(window.parent, ncsReqAppInfo())
 	}
+}
+
+/**
+ * Sends an XML payload to a specified window.
+ *
+ * @param {Window} targetWindow - the window the data will be sent to
+ * @param {Document} xmlData - the data payload to send
+ */
+function sendXmlData(targetWindow, xmlData) {
+	targetWindow.postMessage(new XMLSerializer().serializeToString(xmlData), '*')
 }
 
 /**
  * Sends a data payload to a specified window.
  *
  * @param {Window} targetWindow - the window the data will be sent to
- * @param {*} data - the data payload to send
+ * @param {string} data - the data payload to send
  */
 function sendData(targetWindow, data) {
 	targetWindow.postMessage(data, '*')
