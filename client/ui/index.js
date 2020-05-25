@@ -13,6 +13,8 @@ export const classNames = {
 	CLIP_ITEM: 'clip-list--item'
 }
 
+let currentQuery = {}
+
 /**
  * Performs a search on the Quantel Server using the query parameters from
  * the request querystring and creates a list of the items found.
@@ -60,16 +62,21 @@ async function init({ onTargetSelect, onTargetCancel }) {
 	initSearchForm(
 		({ term, filter, period }) => {
 			const title = `${filter ? filter : ''}*${term ? term + '*' : ''}`
+			const query = { title, created: period }
+			currentQuery = Object.assign({}, query)
 
-			performSearch({ agent: quantelAgent, query: { title, created: period } })
+			performSearch({ agent: quantelAgent, query }, refreshAfter)
 		},
 		{ titleQuery }
 	)
 
+	const query = { title: titleQuery, created: createdQuery }
+	currentQuery = Object.assign({}, query)
+
 	performSearch(
 		{
 			agent: quantelAgent,
-			query: { title: titleQuery, created: createdQuery }
+			query
 		},
 		refreshAfter
 	)
@@ -124,7 +131,11 @@ async function performSearch({ agent, query }, refreshAfter) {
 	} catch (error) {
 		console.log('Error while building clip list', error)
 	}
-	if (!Number.isNaN(refreshAfter) && refreshAfter > 0) {
+	if (!Number.isNaN(refreshAfter) && refreshAfter > 0 && isSameQuery(query, currentQuery)) {
 		setTimeout(performSearch, refreshAfter, { agent, query }, refreshAfter)
 	}
+}
+
+function isSameQuery(a, b) {
+	return JSON.stringify(a) === JSON.stringify(b)
 }
