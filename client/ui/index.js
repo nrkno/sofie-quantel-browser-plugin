@@ -127,7 +127,9 @@ async function performSearch({ agent, query }, refreshAfter) {
 	try {
 		const result = await agent.searchClip(query)
 
-		displaySearchResults(result.clips)
+		if (isSameQuery(query, currentQuery)) {
+			displaySearchResults(result.clips)
+		}
 	} catch (error) {
 		console.log('Error while building clip list', error)
 	}
