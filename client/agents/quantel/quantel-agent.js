@@ -88,6 +88,7 @@ function mapClipData({ content }, serverHost) {
 		guid: content.ClipGUID,
 		title: content.Title,
 		frames: content.Frames,
+		timeBase: content.ServerFrameRate,
 		clipId: content.ClipID,
 		thumbnailUrl: `${serverHost}${paths.STILLS}${content.ClipID}/0.128.jpg`,
 		thumbnailSet: buildThumbnailSrcSet({

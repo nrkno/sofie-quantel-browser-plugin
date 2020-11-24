@@ -7,11 +7,12 @@ export { createQuantelClipNcsItem }
  * @param {object} clipData = the clip data to create the ncsItem from
  * @param {string} clipData.title - clip title
  * @param {string} clipData.guid - clip guid
- * @param {string} clipData.clipFrameCount - clip length in frames
+ * @param {string} clipData.frames - clip length in frames
+ * @param {string} clipData.timeBase - clip TimeBase (frames per second)
  *
  * @returns {XMLDocument} - a MOS ncsItem document
  */
-function createQuantelClipNcsItem({ title, guid, clipFrameCount }) {
+function createQuantelClipNcsItem({ title, guid, frames, timeBase }) {
 	return objectToXml(
 		{
 			ncsItem: {
@@ -20,6 +21,8 @@ function createQuantelClipNcsItem({ title, guid, clipFrameCount }) {
 					itemSlug: title,
 					objID: guid,
 					objSlug: title,
+					objDur: frames,
+					objTB: timeBase,
 					mosID: 'quantelplugin.sofie',
 					mosPlugInID: 'Sofie.QuantelPlugin',
 					mosAbstract: {
@@ -31,7 +34,8 @@ function createQuantelClipNcsItem({ title, guid, clipFrameCount }) {
 							['#textContent']: guid
 						}
 					},
-					itemEdDur: clipFrameCount,
+					itemEdStart: 0,
+					itemEdDur: frames,
 					mosExternalMetadata: {
 						mosScope: 'OBJECT',
 						mosPayload: {
