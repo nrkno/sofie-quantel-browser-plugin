@@ -18,9 +18,15 @@ function displaySearchResults(clips) {
 	}
 }
 
+/**
+ * Builds an HTML list from the supplied array of clips.
+ *
+ * @param {any[]} clips - an array of clips to display
+ */
 function buildClipList(clips) {
 	const clipList = document.createElement('ol')
 	clipList.classList.add(classNames.CLIP_LIST)
+	clips.sort(clipsNewestFirstComparator)
 	clips.forEach((clip) => {
 		const clipListelement = createClipListElement(clip)
 		clipList.appendChild(clipListelement)
@@ -35,4 +41,8 @@ function createClipListElement(clip) {
 	listItem.dataset[clipListItemAttributeNames.GUID] = clip.guid
 	listItem.dataset[clipListItemAttributeNames.CLIP] = JSON.stringify(clip)
 	return listItem
+}
+
+function clipsNewestFirstComparator(a, b) {
+	return Date.parse(b.updated) - Date.parse(a.updated)
 }

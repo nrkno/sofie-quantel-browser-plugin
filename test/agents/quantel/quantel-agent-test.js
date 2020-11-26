@@ -127,6 +127,14 @@ describe('Quantel Agent', () => {
 
 					assert.match(actual, expected)
 				})
+
+				it('should set updated property from clip data', async () => {
+					const results = agent.searchClip('whatever')
+
+					const actual = (await results).clips[0].updated
+
+					assert.match(actual, `2020-02-11T14:11:34.000+01:00`)
+				})
 			})
 		})
 
