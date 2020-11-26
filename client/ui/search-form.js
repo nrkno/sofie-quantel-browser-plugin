@@ -74,7 +74,7 @@ function submitQuery(callback) {
 	const period =
 		periodValueMap[document.forms[elementNames.FORM][elementNames.PERIOD_INPUT].value]
 
-	callback({ term, filter: category ? category.value : null, period })
+	callback({ term, filter: category?.value ?? null, period })
 }
 
 function parseTitleQuery(title) {

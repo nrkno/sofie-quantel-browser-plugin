@@ -32,7 +32,7 @@
 	opacity: 0.5;
 }
 
-.category-toggle--label::before {
+.category-toggle--label:not(.no-icon)::before {
 	display: inline-block;
 	content: ' ';
 	width: 14px;
