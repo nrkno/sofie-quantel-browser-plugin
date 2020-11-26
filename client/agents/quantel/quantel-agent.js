@@ -117,6 +117,10 @@ class QuantelAgent {
 }
 
 function mapClipData({ content }, serverHost) {
+	if (!serverHost.endsWith('/')) {
+		serverHost = `${serverHost}/`
+	}
+
 	return {
 		guid: content.ClipGUID,
 
@@ -151,6 +155,10 @@ function buildQueryParam({ title, poolId, created }) {
 }
 
 function buildThumbnailSrcSet({ serverHost, clipId, sizes }) {
+	if (!serverHost.endsWith('/')) {
+		serverHost = `${serverHost}/`
+	}
+
 	const srcSet = {}
 
 	sizes.forEach((size) => {
