@@ -71,7 +71,8 @@ function submitQuery(callback) {
 		`.${classNames.FILTER_CHECKBOX}:checked`
 	)
 
-	const period = periodValueMap[document.forms[elementNames.FORM][elementNames.PERIOD_INPUT].value]
+	const period =
+		periodValueMap[document.forms[elementNames.FORM][elementNames.PERIOD_INPUT].value]
 
 	callback({ term, filter: category ? category.value : null, period })
 }
