@@ -70,11 +70,12 @@ function submitQuery(callback) {
 	const category = document.forms[elementNames.FORM].querySelector(
 		`.${classNames.FILTER_CHECKBOX}:checked`
 	)
+	const filter = category?.value && category?.value !== 'all-clips' ? category.value : null
 
 	const period =
 		periodValueMap[document.forms[elementNames.FORM][elementNames.PERIOD_INPUT].value]
 
-	callback({ term, filter: category?.value ?? null, period })
+	callback({ term, filter, period })
 }
 
 function parseTitleQuery(title) {
