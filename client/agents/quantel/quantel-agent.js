@@ -86,7 +86,7 @@ class QuantelAgent {
 	}
 }
 
-function mapClipData({ content, updated }, serverHost) {
+function mapClipData({ content }, serverHost) {
 	if (!serverHost.endsWith('/')) {
 		serverHost = `${serverHost}/`
 	}
@@ -97,13 +97,13 @@ function mapClipData({ content, updated }, serverHost) {
 		frames: content.Frames,
 		timeBase: content.ServerFrameRate,
 		clipId: content.ClipID,
+		created: content.Created,
 		thumbnailUrl: `${serverHost}${paths.STILLS}${content.ClipID}/0.128.jpg`,
 		thumbnailSet: buildThumbnailSrcSet({
 			serverHost,
 			clipId: content.ClipID,
 			sizes: [128, 256, 384, 512]
-		}),
-		updated
+		})
 	}
 }
 
