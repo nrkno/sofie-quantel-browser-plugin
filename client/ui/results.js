@@ -44,5 +44,5 @@ function createClipListElement(clip) {
 }
 
 function clipsNewestFirstComparator(a, b) {
-	return Date.parse(b.updated) - Date.parse(a.updated)
+	return Date.parse(b.created) - Date.parse(a.created)
 }

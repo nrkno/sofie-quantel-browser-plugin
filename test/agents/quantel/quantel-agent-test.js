@@ -103,6 +103,13 @@ describe('Quantel Agent', () => {
 					assert.equals(actual, '699991')
 				})
 
+				it('should set created property from clip data', async () => {
+					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const actual = (await results).clips[0].created
+
+					assert.equals(actual, '2020-02-11T14:11:34.000+01:00')
+				})
+
 				it('should set thumbnailUrl property to a still for the clip', async () => {
 					const results = agent.searchClip('whatever') // fetch mock doesn't care
 					const clipId = (await results).clips[0].clipId
@@ -126,14 +133,6 @@ describe('Quantel Agent', () => {
 					const actual = (await results).clips[0].thumbnailSet
 
 					assert.match(actual, expected)
-				})
-
-				it('should set updated property from clip data', async () => {
-					const results = agent.searchClip('whatever')
-
-					const actual = (await results).clips[0].updated
-
-					assert.match(actual, `2020-02-11T14:11:34.000+01:00`)
 				})
 			})
 		})
