@@ -144,7 +144,7 @@ function setupFocusHandling() {
 function blurPlugin() {
 	window.parent &&
 		window.parent.postMessage({
-			id: Date.now(),
+			id: `quantel-browser-plugin-${Date.now()}`,
 			type: 'focus_in'
 		})
 }
