@@ -104,9 +104,49 @@ async function init({ onTargetSelect, onTargetCancel }) {
 		}
 	})
 
+	setupFocusHandling()
+	setupKeyHandling()
+
 	return {
 		origin
 	}
+}
+
+/** Override some keyboard events, so that they don't trigger built-in browser behavior */
+function setupKeyHandling() {
+	document.addEventListener('keydown', (e) => {
+		if (e.code === 'Escape') {
+			// Allow the user to explicitly escape focus
+			blurPlugin()
+			e.preventDefault()
+		} else if (e.code.match(/^F(\d+)$/)) {
+			e.preventDefault()
+		}
+	})
+}
+
+/** This will inform the host application (we assume Sofie) that we may have hijacked the focus, and that it should
+ * take the focus back.
+ */
+function setupFocusHandling() {
+	document.addEventListener('focusout', (e) => {
+		if (
+			e.relatedTarget === null ||
+			(e.relatedTarget.nodeName !== 'INPUT' &&
+				e.relatedTarget.nodeName !== 'SELECT' &&
+				e.relatedTarget.nodeName !== 'TEXTAREA')
+		) {
+			blurPlugin()
+		}
+	})
+}
+
+function blurPlugin() {
+	window.parent &&
+		window.parent.postMessage({
+			id: `quantel-browser-plugin-${Date.now()}`,
+			type: 'focus_in'
+		})
 }
 
 function setupDragTracking(className, { onDragStart, onDragEnd }) {
