@@ -132,9 +132,9 @@ function setupFocusHandling() {
 	document.addEventListener('focusout', (e) => {
 		if (
 			e.relatedTarget === null ||
-			e.relatedTarget.nodeName !== 'INPUT' ||
-			e.relatedTarget.nodeName !== 'SELECT' ||
-			e.relatedTarget.nodeName !== 'TEXTAREA'
+			(e.relatedTarget.nodeName !== 'INPUT' &&
+				e.relatedTarget.nodeName !== 'SELECT' &&
+				e.relatedTarget.nodeName !== 'TEXTAREA')
 		) {
 			blurPlugin()
 		}
