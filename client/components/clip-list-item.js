@@ -97,7 +97,7 @@ function formatDuration(frames, timeBase) {
 	const framesNumber = new Number(frames)
 	const timeBaseNumber = new Number(timeBase)
 
-	const frames = framesNumber % timeBaseNumber
+	const frameNum = framesNumber % timeBaseNumber
 	const seconds = Math.floor(framesNumber / timeBaseNumber) % 60
 	const minutes = Math.floor(framesNumber / timeBaseNumber / 60) % 60
 	const hours = Math.floor(framesNumber / timeBaseNumber / 3600)
@@ -106,7 +106,7 @@ function formatDuration(frames, timeBase) {
 		${hours.toString().padStart(2, '0')}:${minutes
 			.toString()
 			.padStart(2, '0')}:${seconds.toString().padStart(2, '0')}<span style="font-size: 80%"
-			>:${frames.toString().padStart(2, '0')}</span
+			>:${frameNum.toString().padStart(2, '0')}</span
 		>
 	`
 }
