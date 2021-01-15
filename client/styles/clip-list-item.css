@@ -41,6 +41,24 @@
 	pointer-events: none;
 }
 
+.clip-element--duration {
+	background-color: rgba(0, 0, 0, 0.5);
+	grid-area: clip-display;
+	position: absolute;
+	display: block;
+	top: auto;
+	left: auto;
+	text-align: right;
+	bottom: 0;
+	right: 0;
+	line-height: 1.14em;
+	padding: 4px;
+	width: 100%;
+	margin: 5px;
+	color: #fff;
+	text-shadow: 0.5px 0.5px 1px #000;
+}
+
 .clip-element--label.bts {
 	background: var(--bts-background);
 }

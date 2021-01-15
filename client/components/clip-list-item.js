@@ -13,6 +13,7 @@ const classNames = {
 	ROOT: 'clip-element',
 	LABEL: 'clip-element--label',
 	THUMBNAIL: 'clip-element--thumbnail',
+	DURATION: 'clip-element--duration',
 	BTS: 'bts',
 	STK: 'stk',
 	VB: 'vb',
@@ -23,6 +24,7 @@ const classNames = {
 const template = html`
 	<img class="${classNames.THUMBNAIL}" src="data:," alt="" />
 	<span class="${classNames.LABEL}"></span>
+	<span class="${classNames.DURATION}"></span>
 `
 
 class ClipListElement extends HTMLLIElement {
@@ -30,16 +32,17 @@ class ClipListElement extends HTMLLIElement {
 		super()
 
 		this.classList.add(classNames.ROOT)
-		this.innerHTML = template
+		this.insertAdjacentHTML('afterbegin', template)
 	}
 
 	connectedCallback() {
 		try {
 			this.clip = JSON.parse(this.dataset[dataAttributeNames.CLIP])
 			if (this.clip) {
-				const { thumbnailUrl, thumbnailSet, title } = this.clip
+				const { thumbnailUrl, thumbnailSet, title, frames, timeBase } = this.clip
 				const thumbnail = this.querySelector(`.${classNames.THUMBNAIL}`)
 				const label = this.querySelector(`.${classNames.LABEL}`)
+				const duration = this.querySelector(`.${classNames.DURATION}`)
 
 				thumbnail.src = thumbnailUrl
 				thumbnail.srcset = Object.keys(thumbnailSet)
@@ -62,6 +65,8 @@ class ClipListElement extends HTMLLIElement {
 
 				label.textContent = title
 				label.classList.add(findLabelTypeClassName(title))
+
+				duration.insertAdjacentHTML('afterbegin', formatDuration(frames, timeBase))
 			}
 		} catch (error) {
 			console.error('Unable to create clip list item', error)
@@ -86,4 +91,22 @@ function findLabelTypeClassName(clipTitle) {
 	if (clipTitle.toLowerCase().startsWith('super')) {
 		return classNames.SUPER
 	}
+}
+
+function formatDuration(frames, timeBase) {
+	const framesNumber = new Number(frames)
+	const timeBaseNumber = new Number(timeBase)
+
+	const frames = framesNumber % timeBaseNumber
+	const seconds = Math.floor(framesNumber / timeBaseNumber) % 60
+	const minutes = Math.floor(framesNumber / timeBaseNumber / 60) % 60
+	const hours = Math.floor(framesNumber / timeBaseNumber / 3600)
+
+	return html`
+		${hours.toString().padStart(2, '0')}:${minutes
+			.toString()
+			.padStart(2, '0')}:${seconds.toString().padStart(2, '0')}<span style="font-size: 80%"
+			>:${frames.toString().padStart(2, '0')}</span
+		>
+	`
 }
