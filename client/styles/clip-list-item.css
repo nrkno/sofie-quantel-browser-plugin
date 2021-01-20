@@ -30,6 +30,7 @@
 	line-height: 1.14em;
 	padding: 4px;
 	width: 100%;
+	z-index: 1;
 }
 
 .clip-element--label::before {
@@ -42,8 +43,8 @@
 	bottom: 0;
 	z-index: -1;
 	background-color: black;
-	-webkit-mask-image: linear-gradient(to right, 50% rgba(0, 0, 0, 1), 100% rgba(0, 0, 0, 0));
-	mask-image: linear-gradient(to right, 50% rgba(0, 0, 0, 1), 100% rgba(0, 0, 0, 0));
+	-webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+	mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
 }
 
 .clip-element--thumbnail {
@@ -62,12 +63,12 @@
 	top: auto;
 	left: auto;
 	text-align: right;
-	bottom: 0;
-	right: 0;
+	bottom: 10px;
+	right: 4px;
 	line-height: 1.14em;
 	width: auto;
 	border-radius: 3px;
-	margin: 4px;
+	margin: 0;
 	color: #fff;
 	text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, -1px 1px 1px #000,
 		0px 0px 5px #000;
