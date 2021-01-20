@@ -23,13 +23,27 @@
 }
 
 .clip-element--label {
-	background-color: black;
 	grid-area: clip-display;
+	display: block;
 	position: absolute;
-	height: 2.28em;
+	height: auto;
 	line-height: 1.14em;
 	padding: 4px;
 	width: 100%;
+}
+
+.clip-element--label::before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+	background-color: black;
+	-webkit-mask-image: linear-gradient(to right, 50% rgba(0, 0, 0, 1), 100% rgba(0, 0, 0, 0));
+	mask-image: linear-gradient(to right, 50% rgba(0, 0, 0, 1), 100% rgba(0, 0, 0, 0));
 }
 
 .clip-element--thumbnail {
@@ -42,7 +56,6 @@
 }
 
 .clip-element--duration {
-	background-color: rgba(0, 0, 0, 0.5);
 	grid-area: clip-display;
 	position: absolute;
 	display: block;
@@ -52,29 +65,29 @@
 	bottom: 0;
 	right: 0;
 	line-height: 1.14em;
-	padding: 4px;
 	width: auto;
 	border-radius: 3px;
-	margin: 5px;
+	margin: 4px;
 	color: #fff;
-	text-shadow: 0.5px 0.5px 1px #000;
+	text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, -1px 1px 1px #000,
+		0px 0px 5px #000;
 }
 
-.clip-element--label.bts {
+.clip-element--label.bts::before {
 	background: var(--bts-background);
 }
-.clip-element--label.stk {
+.clip-element--label.stk::before {
 	background: var(--stk-background);
 }
 
-.clip-element--label.vb {
+.clip-element--label.vb::before {
 	background: var(--vb-background);
 }
 
-.clip-element--label.vignett {
+.clip-element--label.vignett::before {
 	background: var(--vignett-background);
 }
 
-.clip-element--label.super {
+.clip-element--label.super::before {
 	background: var(--super-background);
 }
