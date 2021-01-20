@@ -98,9 +98,10 @@ function formatDuration(frames, timeBase) {
 	const timeBaseNumber = new Number(timeBase)
 
 	const frameNum = framesNumber % timeBaseNumber
-	const seconds = Math.floor(framesNumber / timeBaseNumber) % 60
-	const minutes = Math.floor(framesNumber / timeBaseNumber / 60) % 60
-	const hours = Math.floor(framesNumber / timeBaseNumber / 3600)
+	const totalSeconds = framesNumber / timeBaseNumber
+	const seconds = Math.floor(totalSeconds) % 60
+	const minutes = Math.floor(totalSeconds / 60) % 60
+	const hours = Math.floor(totalSeconds / 3600)
 
 	return html`
 		${hours.toString().padStart(2, '0')}:${minutes
