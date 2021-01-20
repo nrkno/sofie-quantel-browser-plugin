@@ -70,8 +70,10 @@
 	border-radius: 3px;
 	margin: 0;
 	color: #fff;
-	text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, -1px 1px 1px #000,
+	text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000,
 		0px 0px 5px #000;
+	font-family: Roboto, sans-serif;
+	font-weight: 300;
 }
 
 .clip-element--label.bts::before {
