@@ -67,7 +67,7 @@ async function init({ onTargetSelect, onTargetCancel }) {
 
 			performSearch({ agent: quantelAgent, query }, refreshAfter)
 		},
-		{ titleQuery }
+		{ titleQuery, createdQuery }
 	)
 
 	const query = { title: titleQuery, created: createdQuery }

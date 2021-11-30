@@ -12,39 +12,50 @@ const classNames = {
 	FILTER_CHECKBOX: 'category-toggle--checkbox'
 }
 
-const periodValueMap = {
-	today: periodPresets.TODAY,
-	week: periodPresets.LAST_7_DAYS,
-	month: periodPresets.LAST_30_DAYS,
-	year: periodPresets.LAST_365_DAYS
-}
+const periodValueMap = new Map()
+periodValueMap.set('today', periodPresets.TODAY)
+periodValueMap.set('week', periodPresets.LAST_7_DAYS)
+periodValueMap.set('month', periodPresets.LAST_30_DAYS)
+periodValueMap.set('year', periodPresets.LAST_365_DAYS)
 
 const filterValues = Array.from(
 	document.forms[elementNames.FORM].querySelectorAll(`.${classNames.FILTER_CHECKBOX}`)
 ).map((checkbox) => checkbox.value)
 
-function init(performSearch, { titleQuery }) {
+function init(performSearch, { titleQuery, createdQuery }) {
 	const { term, filter } = parseTitleQuery(titleQuery)
+	const form = document.forms[elementNames.FORM]
 
-	const titleInput = document.forms[elementNames.FORM][elementNames.TITLE_INPUT]
+	const titleInput = form[elementNames.TITLE_INPUT]
 	if (term) {
 		titleInput.value = term
 	}
 
-	if (filter) {
-		document.forms[elementNames.FORM]
-			.querySelectorAll(`.${classNames.FILTER_CHECKBOX}`)
-			.forEach((checkbox) => {
-				checkbox.checked = filter === checkbox.value
-			})
+	// reflect period preselected via querystring in UI
+	if (createdQuery) {
+		for (const [key, value] of periodValueMap) {
+			if (key === createdQuery || value === createdQuery) {
+				const periodOptions = Array.from(form[elementNames.PERIOD_INPUT].options)
+				const presetOptionIndex = periodOptions.findIndex((p) => p.value === key)
+				form[elementNames.PERIOD_INPUT].selectedIndex = presetOptionIndex
+
+				break
+			}
+		}
 	}
 
-	document.forms[elementNames.FORM].addEventListener('submit', (event) => {
+	if (filter) {
+		form.querySelectorAll(`.${classNames.FILTER_CHECKBOX}`).forEach((checkbox) => {
+			checkbox.checked = filter === checkbox.value
+		})
+	}
+
+	form.addEventListener('submit', (event) => {
 		event.preventDefault()
 		submitQuery(performSearch)
 	})
 
-	document.forms[elementNames.FORM].addEventListener('change', (event) => {
+	form.addEventListener('change', (event) => {
 		const { target } = event
 
 		if (target.isSameNode(titleInput)) {
@@ -52,13 +63,11 @@ function init(performSearch, { titleQuery }) {
 		}
 
 		if (target.classList.contains(classNames.FILTER_CHECKBOX)) {
-			document.forms[elementNames.FORM]
-				.querySelectorAll(`.${classNames.FILTER_CHECKBOX}`)
-				.forEach((checkbox) => {
-					if (!checkbox.isSameNode(target)) {
-						checkbox.checked = target.value === checkbox.value
-					}
-				})
+			form.querySelectorAll(`.${classNames.FILTER_CHECKBOX}`).forEach((checkbox) => {
+				if (!checkbox.isSameNode(target)) {
+					checkbox.checked = target.value === checkbox.value
+				}
+			})
 		}
 
 		submitQuery(performSearch)
@@ -66,14 +75,12 @@ function init(performSearch, { titleQuery }) {
 }
 
 function submitQuery(callback) {
-	const term = document.forms[elementNames.FORM][elementNames.TITLE_INPUT].value || ''
-	const category = document.forms[elementNames.FORM].querySelector(
-		`.${classNames.FILTER_CHECKBOX}:checked`
-	)
+	const form = document.forms[elementNames.FORM]
+	const term = form[elementNames.TITLE_INPUT].value || ''
+	const category = form.querySelector(`.${classNames.FILTER_CHECKBOX}:checked`)
 	const filter = category?.value && category?.value !== 'all-clips' ? category.value : null
 
-	const period =
-		periodValueMap[document.forms[elementNames.FORM][elementNames.PERIOD_INPUT].value]
+	const period = periodValueMap.get(form[elementNames.PERIOD_INPUT].value)
 
 	callback({ term, filter, period })
 }
