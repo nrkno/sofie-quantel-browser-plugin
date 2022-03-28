@@ -73,11 +73,11 @@ class QuantelAgent {
 			})
 			.then(xmlStringToObject)
 			.then((results) => {
-				const { entry } = results.feed
-
-				if (!entry) {
+				if (!results?.feed) {
 					return { clips: [] }
 				}
+
+				const { entry } = results.feed
 
 				const clips = Array.isArray(entry) ? [...entry] : [entry]
 
