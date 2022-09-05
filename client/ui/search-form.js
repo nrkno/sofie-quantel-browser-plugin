@@ -12,7 +12,7 @@ const classNames = {
 	FILTER_CHECKBOX: 'category-toggle--checkbox'
 }
 
-const periodValueMap = new Map()
+export const periodValueMap = new Map()
 periodValueMap.set('today', periodPresets.TODAY)
 periodValueMap.set('week', periodPresets.LAST_7_DAYS)
 periodValueMap.set('month', periodPresets.LAST_30_DAYS)
