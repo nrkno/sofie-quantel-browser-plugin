@@ -1,7 +1,7 @@
 import { QuantelAgent } from '../agents/quantel/quantel-agent.js'
 import { createQuantelClipNcsItem } from '../mos/ncsItemCreator.js'
 import { dataAttributeNames as clipListItemAttributeNames } from '../components/clip-list-item.js'
-import { init as initSearchForm } from './search-form.js'
+import { init as initSearchForm, periodValueMap } from './search-form.js'
 import { displaySearchResults } from './results.js'
 
 export { init }
@@ -37,6 +37,8 @@ async function init({ onTargetSelect, onTargetCancel }) {
 		? Number(params.get('refreshAfter'))
 		: DEFAULT_REFRESH_PERIOD
 
+	const period = periodValueMap.get(createdQuery) || createdQuery // use valid preset if present
+
 	const origin = params.get('origin')
 	if (origin) {
 		let originURL
@@ -67,10 +69,10 @@ async function init({ onTargetSelect, onTargetCancel }) {
 
 			performSearch({ agent: quantelAgent, query }, refreshAfter)
 		},
-		{ titleQuery, createdQuery }
+		{ titleQuery, period }
 	)
 
-	const query = { title: titleQuery, created: createdQuery }
+	const query = { title: titleQuery, created: period }
 	currentQuery = Object.assign({}, query)
 
 	performSearch(
