@@ -1,6 +1,6 @@
 {
 	"name": "tv-automation-quantel-browser-plugin",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "MOS compatible Quantel video clip browser for use with Sofie TV Automation system",
 	"main": "server/index.js",
 	"engines": {
