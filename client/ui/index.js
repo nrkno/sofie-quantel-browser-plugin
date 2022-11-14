@@ -1,7 +1,7 @@
-import { QuantelAgent } from '../agents/quantel/quantel-agent.js'
 import { createQuantelClipNcsItem } from '../mos/ncsItemCreator.js'
 import { dataAttributeNames as clipListItemAttributeNames } from '../components/clip-list-item.js'
 import { init as initSearchForm, periodValueMap } from './search-form.js'
+import { init as initSearchEngine } from './search-engine.js'
 import { displaySearchResults } from './results.js'
 
 export { init }
@@ -12,8 +12,6 @@ export const classNames = {
 	CLIP_LIST: 'clip-list',
 	CLIP_ITEM: 'clip-list--item'
 }
-
-let currentQuery = {}
 
 /**
  * Performs a search on the Quantel Server using the query parameters from
@@ -59,29 +57,23 @@ async function init({ onTargetSelect, onTargetCancel }) {
 		}
 	}
 
-	const quantelAgent = new QuantelAgent(server, poolId)
+	const { setQuery: performSearch } = await initSearchEngine(server, poolId, refreshAfter, {
+		onResults: displaySearchResults
+	})
 
 	initSearchForm(
 		({ term, filter, period }) => {
 			const title = `${filter ? filter : ''}*${term ? term + '*' : ''}`
 			const query = { title, created: period }
-			currentQuery = Object.assign({}, query)
 
-			performSearch({ agent: quantelAgent, query }, refreshAfter)
+			performSearch(query)
 		},
 		{ titleQuery, period }
 	)
 
 	const query = { title: titleQuery, created: period }
-	currentQuery = Object.assign({}, query)
 
-	performSearch(
-		{
-			agent: quantelAgent,
-			query
-		},
-		refreshAfter
-	)
+	performSearch(query)
 
 	setupDragTracking(classNames.CLIP_ITEM, {
 		onDragStart: (clipItem, dataTransfer) => {
@@ -163,23 +155,4 @@ function setupDragTracking(className, { onDragStart, onDragEnd }) {
 			onDragEnd(target)
 		}
 	})
-}
-
-async function performSearch({ agent, query }, refreshAfter) {
-	try {
-		const result = await agent.searchClip(query)
-
-		if (isSameQuery(query, currentQuery)) {
-			displaySearchResults(result.clips)
-		}
-	} catch (error) {
-		console.log('Error while building clip list', error)
-	}
-	if (!Number.isNaN(refreshAfter) && refreshAfter > 0 && isSameQuery(query, currentQuery)) {
-		setTimeout(performSearch, refreshAfter, { agent, query }, refreshAfter)
-	}
-}
-
-function isSameQuery(a, b) {
-	return JSON.stringify(a) === JSON.stringify(b)
 }
