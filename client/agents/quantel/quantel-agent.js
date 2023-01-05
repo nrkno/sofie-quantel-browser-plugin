@@ -73,7 +73,7 @@ class QuantelAgent {
 			})
 			.then(xmlStringToObject)
 			.then((results) => {
-				if (!results?.feed) {
+				if (!results || !results.feed) {
 					return { clips: [] }
 				}
 
