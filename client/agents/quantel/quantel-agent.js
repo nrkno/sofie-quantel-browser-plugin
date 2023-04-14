@@ -79,7 +79,7 @@ class QuantelAgent {
 
 				const { entry } = results.feed
 
-				const clips = Array.isArray(entry) ? [...entry] : [entry]
+				const clips = (Array.isArray(entry) ? [...entry] : [entry]).filter((clip) => !!clip)
 
 				return { clips: clips.map((clip) => mapClipData(clip, this.host)) }
 			})
