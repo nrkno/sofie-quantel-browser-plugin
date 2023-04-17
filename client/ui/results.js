@@ -24,6 +24,12 @@ function displaySearchResults(clips) {
  * @param {any[]} clips - an array of clips to display
  */
 function buildClipList(clips) {
+	if (clips.length === 0) {
+		const noClipsDiv = document.createElement('div')
+		noClipsDiv.innerText = 'Ingen klipp funnet'
+		noClipsDiv.classList.add(classNames.CLIP_LIST)
+		return noClipsDiv
+	}
 	const clipList = document.createElement('ol')
 	clipList.classList.add(classNames.CLIP_LIST)
 	clips.sort(clipsNewestFirstComparator)
