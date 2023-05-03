@@ -96,6 +96,7 @@ function mapClipData({ content }, serverHost) {
 		title: content.Title,
 		frames: content.Frames,
 		timeBase: content.ServerFrameRate,
+		owner: content.Owner,
 		clipId: content.ClipID,
 		created: content.Created,
 		thumbnailUrl: `${serverHost}${paths.STILLS}${content.ClipID}/0.128.jpg`,

@@ -9,10 +9,11 @@ export { createQuantelClipNcsItem }
  * @param {string} clipData.guid - clip guid
  * @param {string} clipData.frames - clip length in frames
  * @param {string} clipData.timeBase - clip TimeBase (frames per second)
+ * @param {string} clipData.owner - clip owner
  *
  * @returns {XMLDocument} - a MOS ncsItem document
  */
-function createQuantelClipNcsItem({ title, guid, frames, timeBase }) {
+function createQuantelClipNcsItem({ title, guid, frames, timeBase, owner }) {
 	return objectToXml(
 		{
 			ncsItem: {
@@ -38,8 +39,10 @@ function createQuantelClipNcsItem({ title, guid, frames, timeBase }) {
 					itemEdDur: frames,
 					mosExternalMetadata: {
 						mosScope: 'OBJECT',
+						mosSchema: 'urn:sofie:quantel',
 						mosPayload: {
-							objType: 'VIDEO'
+							objType: 'VIDEO',
+							owner: owner
 						}
 					}
 				}
