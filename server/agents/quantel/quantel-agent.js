@@ -1,5 +1,6 @@
+import fetch from 'node-fetch'
 import { xmlStringToObject } from '../../xml/parser.js'
-export { QuantelAgent, periodPresets }
+export { QuantelAgent }
 
 const paths = {
 	SEARCH: 'quantel/homezone/clips/search',
@@ -15,7 +16,7 @@ const REQUESTS = {
 	}
 }
 
-const periodPresets = {
+const PERIOD_PRESETS = {
 	TODAY: '[NOW-1DAY/DAY TO NOW]',
 	LAST_7_DAYS: '[NOW-7DAY/DAY TO NOW]',
 	LAST_30_DAYS: '[NOW-30DAY/DAY TO NOW]',
@@ -56,9 +57,16 @@ class QuantelAgent {
 		const url = new URL(this.host)
 		url.pathname = url.pathname + path
 		const queryParamValue = buildQueryParam(
-			Object.assign({}, criteria, {
-				poolId: this.poolId
-			})
+			Object.assign(
+				{},
+				{
+					title: criteria.title,
+					created: PERIOD_PRESETS[criteria.created] ?? PERIOD_PRESETS.TODAY
+				},
+				{
+					poolId: this.poolId
+				}
+			)
 		)
 		url.searchParams.append(params.QUERY, queryParamValue)
 
