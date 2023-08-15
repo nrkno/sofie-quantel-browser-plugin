@@ -29,12 +29,10 @@ class QuantelAgent {
 	 * Create an agent.
 	 *
 	 * @param {string} host - Address to the Quantel server to query
-	 * @param {string} criteria.poolId - scope the search to a specified pool
 	 */
 
-	constructor(host, poolId) {
+	constructor(host) {
 		this.host = host
-		this.poolId = poolId || null
 	}
 
 	/**
@@ -47,6 +45,7 @@ class QuantelAgent {
 	 * @param {object} criteria - query criteria
 	 * @param {string} criteria.title - clip title criteria. * is allowed as a wildcard
 	 * @param {string} criteria.created - scope the search to clips created in a specific period
+	 * @param {string} criteria.poolId - scope the search to a specified pool
 	 *
 	 * @returns {Promise} - a promise containing the search results
 	 */
@@ -63,9 +62,11 @@ class QuantelAgent {
 					title: criteria.title,
 					created: PERIOD_PRESETS[criteria.created] ?? PERIOD_PRESETS.TODAY
 				},
-				{
-					poolId: this.poolId
-				}
+				criteria.poolId
+					? {
+							poolId: criteria.poolId
+					  }
+					: {}
 			)
 		)
 		url.searchParams.append(params.QUERY, queryParamValue)
