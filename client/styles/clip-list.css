@@ -1,6 +1,11 @@
 .clip-list {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+
+	/* because minmax(min()) syntax is not yet supported by all browsers, rely on unsupported syntax fallback
+	   for a best-effort */
+	grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(min(15em, 100%), 1fr));
+
 	gap: 16px;
 	flex-wrap: wrap;
 	list-style: none;
