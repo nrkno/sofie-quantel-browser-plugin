@@ -7,11 +7,11 @@ let isVisible = isNowVisible()
 let lastTimeout = null
 
 export async function init(server, poolId, refreshInterval, { onResults }) {
-	const quantelAgent = new QuantelAgent(server, poolId)
+	const quantelAgent = new QuantelAgent(server)
 	let firstQuery = true
 
 	function setQuery(query) {
-		lastQuery = Object.assign({}, query)
+		lastQuery = Object.assign({}, query, { poolId })
 
 		clearTimeout(lastTimeout)
 		performSearch(

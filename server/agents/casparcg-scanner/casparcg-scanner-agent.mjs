@@ -83,7 +83,8 @@ function filterClipResults(title, created, results) {
 		LAST_365_DAYS: last365Days.getTime()
 	}
 
-	const nameFilter = new RegExp(title.replace(/\*+/gi, '[\\S]+'), 'i')
+	// try and replicate SOLR wildcard behavior using RegExp
+	const nameFilter = new RegExp('^' + title.replace(/\*+/gi, '[\\S]+') + '$', 'i')
 
 	return results.filter((clipInfo) => {
 		if (clipInfo.time < PERIOD_PRESETS[created]) return false

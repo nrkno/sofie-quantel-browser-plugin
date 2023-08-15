@@ -9,7 +9,8 @@ const REQUESTS = {
 		path: paths.SEARCH,
 		params: {
 			TITLE: 'title',
-			CREATED: 'created'
+			CREATED: 'created',
+			POOL_ID: 'poolId'
 		}
 	}
 }
@@ -35,6 +36,7 @@ class GeneralAgent {
 	 * @param {object} criteria - query criteria
 	 * @param {string} criteria.title - clip title criteria. * is allowed as a wildcard
 	 * @param {string} criteria.created - scope the search to clips created in a specific period
+	 * @param {string} criteria.poolId - optional poolId to be forwarded to the backend search agent
 	 *
 	 * @returns {Promise} - a promise containing the search results
 	 */
@@ -46,6 +48,7 @@ class GeneralAgent {
 		url.pathname = url.pathname + path
 		url.searchParams.append(params.TITLE, criteria?.title)
 		url.searchParams.append(params.CREATED, criteria?.created)
+		url.searchParams.append(params.POOL_ID, criteria?.poolId)
 
 		return fetch(url.href).then((response) => {
 			if (response.ok) {
