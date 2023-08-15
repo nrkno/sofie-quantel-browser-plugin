@@ -102,7 +102,21 @@ function mapClipData(content, serverHost) {
 		path: content.path,
 		title: content.name,
 		size: content.size,
+		frames: content.streams?.[0]?.duration_ts,
+		timeBase: getTimeBase(content.streams?.[0]?.time_base),
 		created: new Date(content.time).toISOString(),
 		thumbnailUrl: `${serverHost}${paths.STILLS}${content.name}`
+	}
+}
+
+function getTimeBase(tbString) {
+	switch (tbString) {
+		case '1/50':
+			return '50'
+		case '1001/60000':
+			return '59.94'
+		case '1/25':
+		default:
+			return '25'
 	}
 }
