@@ -1,14 +1,15 @@
-const Koa = require('koa')
-const serve = require('koa-static')
-const Router = require('koa-router')
-const { createSearchAgent } = require('./agents/create-agent.js')
+import Koa from 'koa'
+import process from 'process'
+import serve from 'koa-static'
+import Router from 'koa-router'
+import { createSearchAgent } from './agents/create-agent.mjs'
+
+import packageInfo from '../package.json' assert { type: 'json' }
 
 const app = new Koa()
 const router = new Router()
 
 const SERVER_PORT = process.env.PORT || 9000
-
-const packageInfo = require('../package.json')
 
 const agent = createSearchAgent(process.env)
 
@@ -37,13 +38,14 @@ router.get('/api/search', async (ctx, next) => {
 	next()
 })
 
-app.use(async (ctx, next) => {
-	await next()
+app
+	.use(async (ctx, next) => {
+		await next()
 
-	ctx.set({
-		Server: `${packageInfo.name}/${packageInfo.version}`
+		ctx.set({
+			Server: `${packageInfo.name}/${packageInfo.version}`
+		})
 	})
-})
 	.use(router.routes())
 	.use(serve('./client/'))
 	.listen(SERVER_PORT)

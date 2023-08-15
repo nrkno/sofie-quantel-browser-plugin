@@ -49,21 +49,11 @@ class CasparCGScannerAgent {
 				if (response.ok) {
 					return response.json()
 				} else
-					throw new Error(
-						`Unable to fetch results: ${response.status} - ${response.statusText}`
-					)
+					throw new Error(`Unable to fetch results: ${response.status} - ${response.statusText}`)
 			})
 			.then((results) => filterClipResults(criteria.title, criteria.created, results))
 			.then((results) => {
-				if (!results || !results.feed) {
-					return { clips: [] }
-				}
-
-				const { entry } = results.feed
-
-				const clips = (Array.isArray(entry) ? [...entry] : [entry]).filter((clip) => !!clip)
-
-				return { clips: clips.map((clip) => mapClipData(clip, this.host)) }
+				return { clips: results.map((clip) => mapClipData(clip, this.host)) }
 			})
 	}
 }
@@ -93,7 +83,7 @@ function filterClipResults(title, created, results) {
 		LAST_365_DAYS: last365Days.getTime()
 	}
 
-	const nameFilter = new RegExp(title.replace(/\*+/gi, '[\\S]+'))
+	const nameFilter = new RegExp(title.replace(/\*+/gi, '[\\S]+'), 'i')
 
 	return results.filter((clipInfo) => {
 		if (clipInfo.time < PERIOD_PRESETS[created]) return false
@@ -102,7 +92,7 @@ function filterClipResults(title, created, results) {
 	})
 }
 
-function mapClipData({ content }, serverHost) {
+function mapClipData(content, serverHost) {
 	if (!serverHost.endsWith('/')) {
 		serverHost = `${serverHost}/`
 	}

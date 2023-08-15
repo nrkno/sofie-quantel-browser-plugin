@@ -1,5 +1,5 @@
-import { QuantelAgent } from './quantel/quantel-agent.js'
-import { CasparCGScannerAgent } from './casparcg-scanner/casparcg-scanner-agent.js'
+import { QuantelAgent } from './quantel/quantel-agent.mjs'
+import { CasparCGScannerAgent } from './casparcg-scanner/casparcg-scanner-agent.mjs'
 
 function createSearchAgent(env) {
 	switch (env.AGENT) {

@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { xmlStringToObject } from '../../xml/parser.js'
+import { xmlStringToObject } from '../../xml/parser.mjs'
 export { QuantelAgent }
 
 const paths = {
