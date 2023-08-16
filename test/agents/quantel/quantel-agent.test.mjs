@@ -1,23 +1,22 @@
 import { assert, refute, sinon } from '@sinonjs/referee-sinon'
-import { QuantelAgent } from '../../../client/agents/quantel/quantel-agent.js'
+import { QuantelAgent } from '../../../server/agents/quantel/quantel-agent.mjs'
 import { readFileSync } from 'fs'
 import path from 'path'
-import { JSDOM } from 'jsdom'
+import * as url from 'url'
+import * as nodeFetch from 'node-fetch'
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 const sampleXmlResults = readFileSync(path.join(__dirname, 'clip-search-query-zzz.xml'), 'utf-8')
 
 describe('Quantel Agent', () => {
 	before(() => {
-		const dom = new JSDOM('<!DOCTYPE html><html><head></head><body></body></html>')
-
-		global.window = dom.window
-		global.document = dom.window.document
 		const fetch = sinon.fake.resolves({
 			text: async () => sampleXmlResults,
 			ok: true
 		})
-		global.window.fetch = fetch
-		global.fetch = fetch
+		// eslint-disable-next-line no-import-assign
+		nodeFetch.default = fetch
 	})
 
 	describe('searchClip', () => {
@@ -164,3 +163,4 @@ describe('Quantel Agent', () => {
 		sinon.restore()
 	})
 })
+
