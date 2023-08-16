@@ -1,4 +1,4 @@
-import { periodPresets } from '../agents/quantel/quantel-agent.js'
+import { periodPresets } from '../agents/general/general-agent.js'
 
 export { init }
 

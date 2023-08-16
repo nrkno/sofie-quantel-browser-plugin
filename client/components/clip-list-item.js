@@ -6,7 +6,8 @@ const tagName = 'clip-list-element'
 
 const dataAttributeNames = {
 	CLIP: 'clip',
-	GUID: 'guid'
+	GUID: 'guid',
+	PATH: 'path'
 }
 
 const classNames = {

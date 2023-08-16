@@ -1,4 +1,5 @@
 import fetch from 'node-fetch'
+import path from 'path/win32'
 export { CasparCGScannerAgent }
 
 const paths = {
@@ -20,8 +21,9 @@ class CasparCGScannerAgent {
 	 * @param {string} host - Address to the Quantel server to query
 	 */
 
-	constructor(host) {
+	constructor(host, basePath) {
 		this.host = host
+		this.basePath = basePath
 	}
 
 	/**
@@ -53,7 +55,7 @@ class CasparCGScannerAgent {
 			})
 			.then((results) => filterClipResults(criteria.title, criteria.created, results))
 			.then((results) => {
-				return { clips: results.map((clip) => mapClipData(clip, this.host)) }
+				return { clips: results.map((clip) => mapClipData(clip, this.host, this.basePath)) }
 			})
 	}
 }
@@ -84,28 +86,31 @@ function filterClipResults(title, created, results) {
 	}
 
 	// try and replicate SOLR wildcard behavior using RegExp
-	const nameFilter = new RegExp('^' + title.replace(/\*+/gi, '[\\S]+') + '$', 'i')
+	const nameFilter = title ? new RegExp('^' + title.replace(/\*+/gi, '[\\S]+') + '$', 'i') : null
 
 	return results.filter((clipInfo) => {
-		if (clipInfo.time < PERIOD_PRESETS[created]) return false
-		if (!clipInfo.name.match(nameFilter)) return false
+		if (PERIOD_PRESETS[created] && clipInfo.time < PERIOD_PRESETS[created]) return false
+		if (nameFilter && !clipInfo.name.match(nameFilter)) return false
 		return true
 	})
 }
 
-function mapClipData(content, serverHost) {
+function mapClipData(content, serverHost, basePath) {
 	if (!serverHost.endsWith('/')) {
 		serverHost = `${serverHost}/`
 	}
 
 	return {
-		path: content.path,
+		path: path.join(basePath, content.path),
 		title: content.name,
 		size: content.size,
 		frames: content.streams?.[0]?.duration_ts,
 		timeBase: getTimeBase(content.streams?.[0]?.time_base),
 		created: new Date(content.time).toISOString(),
-		thumbnailUrl: `${serverHost}${paths.STILLS}${content.name}`
+		thumbnailUrl: `${serverHost}${paths.STILLS}${content.name}`,
+		thumbnailSet: {
+			'256': `${serverHost}${paths.STILLS}${content.name}`
+		}
 	}
 }
 

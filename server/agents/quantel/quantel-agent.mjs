@@ -59,7 +59,7 @@ class QuantelAgent {
 			Object.assign(
 				{},
 				{
-					title: criteria.title,
+					title: criteria.title ?? '*',
 					created: PERIOD_PRESETS[criteria.created] ?? PERIOD_PRESETS.TODAY
 				},
 				criteria.poolId

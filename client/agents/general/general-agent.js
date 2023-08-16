@@ -1,7 +1,7 @@
 export { GeneralAgent, periodPresets }
 
 const paths = {
-	SEARCH: '/api/search'
+	SEARCH: '/search'
 }
 
 const REQUESTS = {
@@ -15,7 +15,12 @@ const REQUESTS = {
 	}
 }
 
-const periodPresets = ['TODAY', 'LAST_7_DAYS', 'LAST_30_DAYS', 'LAST_365_DAYS']
+const periodPresets = {
+	TODAY: 'TODAY',
+	LAST_7_DAYS: 'LAST_7_DAYS',
+	LAST_30_DAYS: 'LAST_30_DAYS',
+	LAST_365_DAYS: 'LAST_365_DAYS'
+}
 
 class GeneralAgent {
 	/**
@@ -46,9 +51,9 @@ class GeneralAgent {
 
 		const url = new URL(this.host)
 		url.pathname = url.pathname + path
-		url.searchParams.append(params.TITLE, criteria?.title)
-		url.searchParams.append(params.CREATED, criteria?.created)
-		url.searchParams.append(params.POOL_ID, criteria?.poolId)
+		if (criteria?.title) url.searchParams.append(params.TITLE, criteria?.title)
+		if (criteria?.created) url.searchParams.append(params.CREATED, criteria?.created)
+		if (criteria?.poolId) url.searchParams.append(params.POOL_ID, criteria?.poolId)
 
 		return fetch(url.href).then((response) => {
 			if (response.ok) {

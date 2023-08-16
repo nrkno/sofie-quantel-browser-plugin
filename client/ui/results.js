@@ -45,6 +45,7 @@ function createClipListElement(clip) {
 	listItem.setAttribute('draggable', true)
 	listItem.classList.add(classNames.CLIP_ITEM)
 	listItem.dataset[clipListItemAttributeNames.GUID] = clip.guid
+	listItem.dataset[clipListItemAttributeNames.PATH] = clip.path
 	listItem.dataset[clipListItemAttributeNames.CLIP] = JSON.stringify(clip)
 	return listItem
 }

@@ -13,7 +13,7 @@ export { createQuantelClipNcsItem }
  *
  * @returns {XMLDocument} - a MOS ncsItem document
  */
-function createQuantelClipNcsItem({ title, guid, frames, timeBase, owner }) {
+function createQuantelClipNcsItem({ title, guid, path, frames, timeBase, owner }) {
 	return objectToXml(
 		{
 			ncsItem: {
@@ -32,7 +32,7 @@ function createQuantelClipNcsItem({ title, guid, frames, timeBase, owner }) {
 					objPaths: {
 						objPath: {
 							['@techDescription']: 'VIDEO',
-							['#textContent']: guid
+							['#textContent']: guid ?? path
 						}
 					},
 					itemEdStart: 0,
