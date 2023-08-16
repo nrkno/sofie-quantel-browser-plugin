@@ -1,22 +1,33 @@
-import { assert, refute, sinon } from '@sinonjs/referee-sinon'
-import { QuantelAgent } from '../../../server/agents/quantel/quantel-agent.mjs'
-import { readFileSync } from 'fs'
-import path from 'path'
-import * as url from 'url'
-import * as nodeFetch from 'node-fetch'
+import { jest, expect } from '@jest/globals'
+import * as url from 'node:url'
+import * as path from 'node:path'
+import * as fs from 'node:fs/promises'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
-const sampleXmlResults = readFileSync(path.join(__dirname, 'clip-search-query-zzz.xml'), 'utf-8')
+const sampleXmlResults = await fs.readFile(
+	path.join(__dirname, 'clip-search-query-zzz.xml'),
+	'utf-8'
+)
+
+jest.unstable_mockModule('node-fetch', async () => {
+	return {
+		__esModule: true,
+		default: jest.fn()
+	}
+})
+
+const { QuantelAgent } = await import('../quantel-agent.mjs')
+const nodeFetch = await import('node-fetch')
+const fetch = jest.mocked(nodeFetch)
 
 describe('Quantel Agent', () => {
-	before(() => {
-		const fetch = sinon.fake.resolves({
+	beforeEach(() => {
+		fetch.default.mockClear()
+		fetch.default.mockImplementation(async () => ({
 			text: async () => sampleXmlResults,
 			ok: true
-		})
-		// eslint-disable-next-line no-import-assign
-		nodeFetch.default = fetch
+		}))
 	})
 
 	describe('searchClip', () => {
@@ -25,49 +36,49 @@ describe('Quantel Agent', () => {
 				const hostUrl = new URL('http://quantel')
 
 				const agent = new QuantelAgent(hostUrl.href)
-				await agent.searchClip('hehe')
-				const actual = new URL(fetch.lastArg)
+				await agent.searchClip({ title: 'hehe' })
+				const actual = new URL(fetch.default.mock.calls[0][0])
 
-				assert.equals(actual.protocol, hostUrl.protocol)
-				assert.equals(actual.host, hostUrl.host)
+				expect(actual.protocol).toBe(hostUrl.protocol)
+				expect(actual.host).toBe(hostUrl.host)
 			})
 
-			it('should use pool id given in constructor', async () => {
+			it('should use pool id given in the query', async () => {
 				const poolId = '6140'
 
 				const agent = new QuantelAgent('http://quantel', poolId)
-				await agent.searchClip('hehe')
-				const actual = new URL(fetch.lastArg).searchParams.get('q')
+				await agent.searchClip({ title: 'hehe', poolId })
+				const actual = new URL(fetch.default.mock.calls[0][0]).searchParams.get('q')
 
-				assert.contains(actual, `AND PoolID:${poolId}`)
+				expect(actual).toContain(`AND PoolID:${poolId}`)
 			})
 
 			it('should query using the correct path', async () => {
 				const agent = new QuantelAgent('http://quantel')
-				await agent.searchClip('hehe')
+				await agent.searchClip({ title: 'hehe' })
 
-				const actual = new URL(fetch.lastArg)
-				assert.equals(actual.pathname, '/quantel/homezone/clips/search')
+				const actual = new URL(fetch.default.mock.calls[0][0])
+				expect(actual.pathname).toBe('/quantel/homezone/clips/search')
 			})
 			it('should query using the provided title', async () => {
 				const title = 'hehelol'
 				const expected = `Title:${title}`
 
 				const agent = new QuantelAgent('http://quantel')
-				await agent.searchClip({ title: title })
+				await agent.searchClip({ title })
 
-				const actual = new URL(fetch.lastArg)
-				assert.equals(actual.searchParams.get('q'), expected)
+				const actual = new URL(fetch.default.mock.calls[0][0])
+				expect(actual.searchParams.get('q')).toContain(expected)
 			})
 		})
 
 		describe('Return value', () => {
 			it('should return an array containing the clips from the search results', async () => {
 				const agent = new QuantelAgent('http://quantel')
-				const actual = await agent.searchClip('whatever') // fetch mock doesn't care
+				const actual = await agent.searchClip({ title: 'whatever' }) // fetch mock doesn't care
 
-				assert.isArray(actual.clips)
-				assert.equals(actual.clips.length, 3)
+				expect(Array.isArray(actual.clips)).toBe(true)
+				expect(actual.clips.length).toBe(3)
 			})
 
 			describe('Clip object contents', () => {
@@ -75,52 +86,52 @@ describe('Quantel Agent', () => {
 				const agent = new QuantelAgent(serverUrl)
 
 				it('should set guid property from clip data', async () => {
-					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const results = agent.searchClip({ title: 'whatever' }) // fetch mock doesn't care
 					const actual = (await results).clips[0].guid
 
-					assert.equals(actual, 'e24c1fee-6709-41ea-8577-736f27674623')
+					expect(actual).toBe('e24c1fee-6709-41ea-8577-736f27674623')
 				})
 
 				it('should set title property from clip data', async () => {
-					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const results = agent.searchClip({ title: 'whatever' }) // fetch mock doesn't care
 					const actual = (await results).clips[0].title
 
-					assert.equals(actual, 'zzz-Espen-headling-110220-dr12')
+					expect(actual).toBe('zzz-Espen-headling-110220-dr12')
 				})
 
 				it('should set title property from clip data', async () => {
-					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const results = agent.searchClip({ title: 'whatever' }) // fetch mock doesn't care
 					const actual = (await results).clips[0].frames
 
-					assert.equals(actual, '0')
+					expect(actual).toBe('0')
 				})
 
 				it('should set clipId property from clip data', async () => {
-					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const results = agent.searchClip({ title: 'whatever' }) // fetch mock doesn't care
 					const actual = (await results).clips[0].clipId
 
-					assert.equals(actual, '699991')
+					expect(actual).toBe('699991')
 				})
 
 				it('should set created property from clip data', async () => {
-					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const results = agent.searchClip({ title: 'whatever' }) // fetch mock doesn't care
 					const actual = (await results).clips[0].created
 
-					assert.equals(actual, '2020-02-11T14:11:34.000+01:00')
+					expect(actual).toBe('2020-02-11T14:11:34.000+01:00')
 				})
 
 				it('should set thumbnailUrl property to a still for the clip', async () => {
-					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const results = agent.searchClip({ title: 'whatever' }) // fetch mock doesn't care
 					const clipId = (await results).clips[0].clipId
 					const expected = `${serverUrl}/quantel/homezone/clips/stills/${clipId}/0.128.jpg`
 
 					const actual = (await results).clips[0].thumbnailUrl
 
-					assert.equals(actual, expected)
+					expect(actual).toBe(expected)
 				})
 
 				it('should set the thumbnailSet property to a mapped array of stills for different sizes', async () => {
-					const results = agent.searchClip('whatever') // fetch mock doesn't care
+					const results = agent.searchClip({ title: 'whatever' }) // fetch mock doesn't care
 					const clipId = (await results).clips[0].clipId
 					const expected = {
 						128: `${serverUrl}/quantel/homezone/clips/stills/${clipId}/0.128.jpg`,
@@ -131,36 +142,29 @@ describe('Quantel Agent', () => {
 
 					const actual = (await results).clips[0].thumbnailSet
 
-					assert.match(actual, expected)
+					expect(actual).toMatchObject(expected)
 				})
 			})
 		})
 
 		describe('Error handling', () => {
 			it('should throw on HTTP 500', async () => {
-				const fetch = sinon.fake.resolves({
+				fetch.default.mockImplementation(async () => ({
 					text: async () => sampleXmlResults,
 					ok: false,
 					status: 500,
 					statusText: 'Internal server error'
-				})
-				global.window.fetch = fetch
-				global.fetch = fetch
+				}))
 
 				const agent = new QuantelAgent('http://quantel')
 
-				try {
-					await agent.searchClip('whatever')
-					refute(true, 'Should have thrown')
-				} catch (err) {
-					// success!
-				}
+				await expect(agent.searchClip({ title: 'whatever' })).rejects.toThrow()
+			})
+
+			afterAll(() => {
+				fetch.default.mockReset()
 			})
 		})
-	})
-
-	afterEach(() => {
-		sinon.restore()
 	})
 })
 

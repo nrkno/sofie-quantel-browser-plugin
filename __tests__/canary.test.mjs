@@ -5,3 +5,4 @@ describe('Canary in the test coal mine', () => {
 		assert.equal(1, 1)
 	})
 })
+

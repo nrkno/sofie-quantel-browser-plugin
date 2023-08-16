@@ -14,5 +14,8 @@ export { xmlStringToObject }
  * Convenience function for conversion from XML source strings.
  */
 function xmlStringToObject(xmlString) {
-	return parser.toJson(xmlString)
+	return parser.toJson(xmlString, {
+		object: true
+	})
 }
+
