@@ -20,7 +20,7 @@ function createQuantelClipNcsItem({ title, guid, path, frames, timeBase, owner }
 				item: {
 					itemID: 2,
 					itemSlug: title,
-					objID: guid,
+					objID: guid ?? objIdFromPath(path),
 					objSlug: title,
 					objDur: frames,
 					objTB: timeBase,
@@ -50,4 +50,14 @@ function createQuantelClipNcsItem({ title, guid, path, frames, timeBase, owner }
 		},
 		'mos'
 	)
+}
+
+function objIdFromPath(str) {
+	let hash = 0
+	for (let i = 0; i < str.length; i++) {
+		const char = str.charCodeAt(i)
+		hash = (hash << 5) - hash + char
+		hash &= hash // Convert to 32bit integer
+	}
+	return new Uint32Array([hash])[0].toString(36)
 }

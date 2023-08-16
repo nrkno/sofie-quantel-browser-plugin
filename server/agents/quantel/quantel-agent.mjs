@@ -76,9 +76,7 @@ class QuantelAgent {
 				if (response.ok) {
 					return response.text()
 				} else
-					throw new Error(
-						`Unable to fetch results: ${response.status} - ${response.statusText}`
-					)
+					throw new Error(`Unable to fetch results: ${response.status} - ${response.statusText}`)
 			})
 			.then(xmlStringToObject)
 			.then((results) => {
