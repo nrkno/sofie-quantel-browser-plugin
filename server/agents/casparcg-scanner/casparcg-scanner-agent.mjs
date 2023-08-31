@@ -40,23 +40,19 @@ class CasparCGScannerAgent {
 	 * @returns {Promise} - a promise containing the search results
 	 */
 
-	searchClip(criteria) {
+	async searchClip(criteria) {
 		const { path } = REQUESTS.CLIP_SEARCH
 
 		const url = new URL(this.host)
 		url.pathname = url.pathname + path
 
-		return fetch(url.href)
-			.then((response) => {
-				if (response.ok) {
-					return response.json()
-				} else
-					throw new Error(`Unable to fetch results: ${response.status} - ${response.statusText}`)
-			})
-			.then((results) => filterClipResults(criteria.title, criteria.created, results))
-			.then((results) => {
-				return { clips: results.map((clip) => mapClipData(clip, this.host, this.basePath)) }
-			})
+		const response = fetch(url.href)
+		if (!response.ok) {
+			throw new Error(`Unable to fetch results: ${response.status} - ${response.statusText}`)
+		}
+		const results = response.json()
+		const filteredResults = filterClipResults(criteria.title, criteria.created, results)
+		return { clips: filteredResults.map((clip) => mapClipData(clip, this.host, this.basePath)) }
 	}
 }
 
@@ -120,6 +116,14 @@ function getTimeBase(tbString) {
 			return '50'
 		case '1001/60000':
 			return '59.94'
+		case '1/60':
+			return '60'
+		case '1/30':
+			return '30'
+		case '1001/30000':
+			return '29.97'
+		case '1/24':
+			return '24'
 		case '1/25':
 		default:
 			return '25'
