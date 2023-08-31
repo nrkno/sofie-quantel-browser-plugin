@@ -1,4 +1,4 @@
-import { QuantelAgent } from '../agents/quantel/quantel-agent.js'
+import { GeneralAgent } from '../agents/general/general-agent.js'
 
 const MIN_HEIGHT = 2
 
@@ -7,10 +7,11 @@ let isVisible = isNowVisible()
 let lastTimeout = null
 
 export async function init(server, poolId, refreshInterval, { onResults }) {
-	const quantelAgent = new QuantelAgent(server, poolId)
+	const quantelAgent = new GeneralAgent(server)
 	let firstQuery = true
 
 	function setQuery(query) {
+		query.poolId = poolId
 		lastQuery = Object.assign({}, query)
 
 		clearTimeout(lastTimeout)

@@ -1,6 +1,6 @@
 # Sofie: The Modern TV News Studio Automation System (tv-automation-quantel-browser-plugin)
 
-A MOS-compatible Quantel video clip browser for [**Sofie** TV News Studio Automation System](https://github.com/nrkno/Sofie-TV-automation/).
+A MOS-compatible Quantel and CasparCG Scanner video clip browser for [**Sofie** TV News Studio Automation System](https://github.com/nrkno/Sofie-TV-automation/).
 
 ## Requirements
 
@@ -22,10 +22,13 @@ There is no building or transpiling required, so alternatively the files in `/cl
 
 Plugin configuration is done through environment variables.
 
-| Environment Variable    | Use                                                             |
-| ----------------------- | --------------------------------------------------------------- |
-| PORT                    | Specify the port that will be used to server the user interface |
-| QUANTEL_TRANSFORMER_URL | The URL for the Quantel HTTP Transformer                        |
+| Environment Variable    | Use                                                                                                |
+| ----------------------- | -------------------------------------------------------------------------------------------------- |
+| PORT                    | Specify the port that will be used to server the user interface                                    |
+| AGENT                   | Either `quantel` or `casparcg`. Default is `quantel`                                               |
+| QUANTEL_TRANSFORMER_URL | The URL for the Quantel HTTP Transformer                                                           |
+| CASPARCG_SCANNER_URL    | The URL for the Caspar CG Scanner                                                                  |
+| CASPARCG_BASE_PATH      | The publicly-accessible base-path (generally a UNC path) of the files scanned by Caspar CG Scanner |
 
 ---
 

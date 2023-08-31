@@ -27,7 +27,7 @@ export const classNames = {
 async function init({ onTargetSelect, onTargetCancel }) {
 	const params = new URLSearchParams(document.location.search.substring(1))
 	const server =
-		params.get('server') || document.location.origin + document.location.pathname + 'api/'
+		params.get('server') || document.location.origin + document.location.pathname + 'api'
 	const titleQuery = params.get('title')
 	const poolId = params.get('poolId')
 	const createdQuery = params.get('created')

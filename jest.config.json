@@ -1,0 +1,4 @@
+{
+	"testMatch": ["**/__tests__/**/*.(m)?js", "**/?(*.)+(spec|test).(m)?js"],
+	"transform": {}
+}

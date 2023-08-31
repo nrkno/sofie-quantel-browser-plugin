@@ -8,14 +8,14 @@
 	"parserOptions": { "sourceType": "module" },
 	"overrides": [
 		{
-			"files": ["*-test.js"],
+			"files": ["*.test.mjs"],
 			"env": {
-				"mocha": true,
+				"jest": true,
 				"node": true
 			}
 		},
 		{
-			"files": ["server/*.js"],
+			"files": ["server/*.mjs"],
 			"env": { "node": true, "browser": false }
 		}
 	]
