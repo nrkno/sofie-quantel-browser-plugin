@@ -46,11 +46,13 @@ class CasparCGScannerAgent {
 		const url = new URL(this.host)
 		url.pathname = url.pathname + path
 
-		const response = fetch(url.href)
+		const response = await fetch(url.href)
 		if (!response.ok) {
-			throw new Error(`Unable to fetch results: ${response.status} - ${response.statusText}`)
+			throw new Error(
+				`Unable to fetch results from ${url.href}: ${response.status} - ${response.statusText}`
+			)
 		}
-		const results = response.json()
+		const results = await response.json()
 		const filteredResults = filterClipResults(criteria.title, criteria.created, results)
 		return { clips: filteredResults.map((clip) => mapClipData(clip, this.host, this.basePath)) }
 	}
@@ -97,7 +99,7 @@ function mapClipData(content, serverHost, basePath) {
 	}
 
 	return {
-		path: path.join(basePath, content.path),
+		path: path.join(basePath, path.basename(content.path)),
 		title: content.name,
 		size: content.size,
 		frames: content.streams?.[0]?.duration_ts,
