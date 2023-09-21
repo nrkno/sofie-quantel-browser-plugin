@@ -1,5 +1,4 @@
 import fetch from 'node-fetch'
-import path from 'path/win32'
 export { CasparCGScannerAgent }
 
 const paths = {
@@ -93,13 +92,13 @@ function filterClipResults(title, created, results) {
 	})
 }
 
-function mapClipData(content, serverHost, basePath) {
+function mapClipData(content, serverHost) {
 	if (!serverHost.endsWith('/')) {
 		serverHost = `${serverHost}/`
 	}
 
 	return {
-		path: path.join(basePath, path.basename(content.path)),
+		path: content.path,
 		title: content.name,
 		size: content.size,
 		frames: content.streams?.[0]?.duration_ts,
