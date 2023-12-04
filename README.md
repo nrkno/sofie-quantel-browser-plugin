@@ -3,9 +3,9 @@ This is the _Quantel Browser_ plugin of the [**Sofie** TV Automation System](htt
 
 
 
-## General Sofie System Info
-* [Documentation](https://nrkno.github.io/sofie-core/)
-* [Releases](https://nrkno.github.io/sofie-core/releases)
+## General Sofie System Information
+* [_Sofie_ Documentation](https://nrkno.github.io/sofie-core/)
+* [_Sofie_ Releases](https://nrkno.github.io/sofie-core/releases)
 * [Contribution Guidelines](CONTRIBUTING.md)
 * [License](LICENSE)
 
