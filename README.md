@@ -1,14 +1,13 @@
 # Sofie Quantel Browser Plugin
-This is the _Quantel Browser_ plugin of the [**Sofie** TV Automation System](https://github.com/nrkno/Sofie-TV-automation/), a MOS-compatible Quantel and CasparCG Scanner video clip browser for the Sofie GUI.
+This is the _Quantel Browser_ plugin of the [**Sofie** TV Automation System](https://github.com/nrkno/Sofie-TV-automation/), a MOS-compatible _Quantel_ and _CasparCG Scanner _video clip browser for the Sofie GUI.
 
 
-### Repository-specific Info for Developers
-* [Developer Info](DEVELOPER.md)
-* [Contribution Guidelines](CONTRIBUTING.md)
 
-### General Sofie System Info
+## General Sofie System Info
 * [Documentation](https://nrkno.github.io/sofie-core/)
 * [Releases](https://nrkno.github.io/sofie-core/releases)
+* [Contribution Guidelines](CONTRIBUTING.md)
+* [License](LICENSE)
 
 ---
 
