@@ -1,12 +1,21 @@
-# Sofie: The Modern TV News Studio Automation System (tv-automation-quantel-browser-plugin)
+# Sofie Quantel Browser Plugin
+This is the _Quantel Browser_ plugin of the [**Sofie** TV Automation System](https://github.com/nrkno/Sofie-TV-automation/), a MOS-compatible _Quantel_ and _CasparCG Scanner_ video clip browser for the Sofie GUI.
 
-A MOS-compatible Quantel and CasparCG Scanner video clip browser for [**Sofie** TV News Studio Automation System](https://github.com/nrkno/Sofie-TV-automation/).
+
+
+## General Sofie System Information
+* [_Sofie_ Documentation](https://nrkno.github.io/sofie-core/)
+* [_Sofie_ Releases](https://nrkno.github.io/sofie-core/releases)
+* [Contribution Guidelines](CONTRIBUTING.md)
+* [License](LICENSE)
+
+---
 
 ## Requirements
 
 Requires a newer web browser that supports ES modules.
 
-## How to use
+## How to Use
 
 `yarn install`
 
@@ -14,7 +23,7 @@ Requires a newer web browser that supports ES modules.
 
 This will start a web server running on port 9000 serving the contents in `/client` and serving as a proxy to the Quantel Gateway through an `/api` endpoint.
 
-### Alternative usage
+### Alternative Usage
 
 There is no building or transpiling required, so alternatively the files in `/client` can simply be copied and served from anywhere. The internal file structure in the folder must be kept intact however.
 
